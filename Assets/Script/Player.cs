@@ -12,6 +12,8 @@ public enum playerStats
     magic
 }
 
+
+
 public class Player : MonoBehaviour
 {
     public playerStats stats;
@@ -50,6 +52,12 @@ public class Player : MonoBehaviour
     private bool attack;
     private bool follow = false;
 
+    private SkillManager SM;
+
+
+
+    
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -59,6 +67,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        SM = SkillManager.instance;
         switch (stats)
         {
             case playerStats.near:
@@ -95,6 +104,119 @@ public class Player : MonoBehaviour
         exSlider.fillAmount = ex / maxEx;
         hpSlider.fillAmount = hp / maxHp;
         mpSlider.fillAmount = mp / maxMp;
+        Move();
+        Attack();
+        if (attack)
+        {
+            currentAttackSpeed += Time.deltaTime;
+            if(currentAttackSpeed >= attackSpeed)
+            {
+                currentAttackSpeed = 0;
+                attack = false;
+            }
+        }
+
+        if(ex >= maxEx)
+        {
+            ex -= maxEx;
+            level ++;
+            maxEx += 20;
+            switch (stats)
+            {
+                case playerStats.near:
+                    maxHp += 20;
+                    hp = maxHp;
+                    attackDamage += 10;
+                    break;
+                case playerStats.far:
+                    maxHp += 15;
+                    hp = maxHp;
+                    attackDamage += 8;
+                    break;
+                case playerStats.magic:
+                    maxHp += 10;
+                    hp = maxHp;
+                    attackDamage += 10;
+                    break;
+            }
+        }
+    }
+
+    public void NearSkill()
+    {
+        Debug.Log("근접");
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (!SM.useNearSkill[0] && !SM.rockNearSkill[0])
+            {
+                if (SM.nearSkill[0].mp[SM.nearSkillLevel[0]] <= mp)
+                {
+                    mp -= SM.nearSkill[0].mp[SM.nearSkillLevel[0]];
+                }
+                else
+                {
+                    GameManager.Instance.messageUI.Add("마나 부족");
+                    return;
+                }
+                SM.useNearSkill[0] = true;
+                GameManager.Instance.messageUI.Add("단일공격");
+            }
+        }else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (!SM.useNearSkill[1] && !SM.rockNearSkill[1])
+            {
+                if (SM.nearSkill[1].mp[SM.nearSkillLevel[1]] <= mp)
+                {
+                    mp -= SM.nearSkill[1].mp[SM.nearSkillLevel[1]];
+                }
+                else
+                {
+                    GameManager.Instance.messageUI.Add("마나 부족");
+                    return;
+                }
+                SM.useNearSkill[1] = true;
+                GameManager.Instance.messageUI.Add("멀티공격");
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (!SM.useNearSkill[2] && !SM.rockNearSkill[2])
+            {
+                if (SM.nearSkill[2].mp[SM.nearSkillLevel[2]] <= mp)
+                {
+                    mp -= SM.nearSkill[2].mp[SM.nearSkillLevel[2]];
+                }
+                else
+                {
+                    GameManager.Instance.messageUI.Add("마나 부족");
+                    return;
+                }
+                SM.useNearSkill[2] = true;
+                GameManager.Instance.messageUI.Add("관통공격");
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (!SM.useNearSkill[3] && !SM.rockNearSkill[3])
+            {
+                if (SM.nearSkill[3].mp[SM.nearSkillLevel[3]] <= mp)
+                {
+                    mp -= SM.nearSkill[3].mp[SM.nearSkillLevel[3]];
+                }
+                else
+                {
+                    GameManager.Instance.messageUI.Add("마나 부족");
+                    return;
+                }
+                SM.useNearSkill[3] = true;
+                GameManager.Instance.messageUI.Add("관통공격");
+            }
+        }
+    }
+
+
+    public void Move()
+    {
         if (root)
         {
             selectUI.SetActive(true);
@@ -102,7 +224,7 @@ public class Player : MonoBehaviour
             float v = Input.GetAxis("Vertical");
 
             dir = new Vector3(h, 0, v);
-            if(rb.velocity == Vector3.zero)
+            if (rb.velocity == Vector3.zero)
             {
                 anim.SetBool("Move", false);
                 anim.SetBool("Run", false);
@@ -288,23 +410,6 @@ public class Player : MonoBehaviour
                         break;
                 }
             }
-        }
-        Attack();
-        if (attack)
-        {
-            currentAttackSpeed += Time.deltaTime;
-            if(currentAttackSpeed >= attackSpeed)
-            {
-                currentAttackSpeed = 0;
-                attack = false;
-            }
-        }
-
-        if(ex >= maxEx)
-        {
-            ex -= maxEx;
-            level ++;
-            maxEx += 20;
         }
     }
 
