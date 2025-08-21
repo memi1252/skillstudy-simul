@@ -47,6 +47,14 @@ public class SkillManager : MonoBehaviour
     public bool[] rockFarSkill = new bool[] { true, true, true, true };
     public bool[] rockMagicSkill = new bool[] { true, true, true, true };
 
+    public int nearSkillUpgrade;
+    public int farSkillUpgrade;
+    public int magicSkillUpgrade;
+
+    public Button[] nearSkillUpgradeButton;
+    public Button[] farSkillUpgradeButton;
+    public Button[] magicSkillUpgradeButton;
+
     private void Awake()
     {
         if(instance == null)
@@ -73,7 +81,27 @@ public class SkillManager : MonoBehaviour
                 }
             }
         }
-        Skill();
+
+        if (nearSkillUpgrade > 0)
+        {
+            for (int i = 0; i < nearSkillLevel.Length; i++)
+            {
+                if (nearSkillLevel[i] < 5)
+                {
+                    nearSkillUpgradeButton[i].gameObject.SetActive(true);
+                }
+            }
+
+        }
+        else
+        {
+            for(int i = 0;i < nearSkillUpgradeButton.Length; i++)
+            {
+                nearSkillUpgradeButton[i].gameObject.SetActive(false);
+            }
+        }
+
+            Skill();
         for (int i = 0; i < rockNearSkillImage.Length; i++)
         {
             if (!rockNearSkill[i])
@@ -90,6 +118,26 @@ public class SkillManager : MonoBehaviour
             }
         }
     }
+
+    public void SkillUpgrade(int count)
+    {
+        switch (player.stats)
+        {
+            case playerStats.near:
+                nearSkillLevel[count-1]++;
+                nearSkillUpgrade--;
+                break;
+            case playerStats.far:
+                farSkillLevel[count-1]++;
+                farSkillUpgrade--;
+                break;
+            case playerStats.magic: 
+                magicSkillLevel[count-1]++;
+                magicSkillUpgrade--;
+                break;
+        }
+    }
+
 
     public void Skill()
     {

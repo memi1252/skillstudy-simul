@@ -5,7 +5,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class PixelateCam : MonoBehaviour
 {
-    [Range(1, 100)] public int pixelate;
+    [Range(1, 1000)] public int pixelate;
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
