@@ -55,7 +55,8 @@ public class Player : MonoBehaviour
 
     public Collider[] nearCollision;
 
-
+    private Collider En = new Collider();
+    private float neardis = Mathf.Infinity;
 
 
 
@@ -105,6 +106,24 @@ public class Player : MonoBehaviour
     private void Update()
     {
         nearCollision = Physics.OverlapSphere(transform.position, attackRange, LayerMask.GetMask("Enemy"));
+        if (nearCollision.Length == 1)
+        {
+            En = nearCollision[0];
+        }
+        else if (nearCollision.Length != 0)
+        {
+            foreach (var en in nearCollision)
+            {
+                float dis2 = Vector3.Distance(transform.position, en.transform.position);
+
+                if (dis2 < neardis)
+                {
+                    neardis = dis2;
+                    En = en;
+                }
+            }
+        }
+
         exSlider.fillAmount = ex / maxEx;
         hpSlider.fillAmount = hp / maxHp;
         mpSlider.fillAmount = mp / maxMp;
@@ -151,9 +170,9 @@ public class Player : MonoBehaviour
 
     public void NearSkill()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            if(SM.nearSkillUpgrade > 0)
+            if(SM.nearSkillUpgrade > 0 && Input.GetKey(KeyCode.LeftControl))
             {
                 SM.nearSkillLevel[0]++;
                 SM.rockNearSkill[0] = false;
@@ -179,9 +198,9 @@ public class Player : MonoBehaviour
                 if (nearCollision.Length != 0)
                 {
                     Enemy enemy;
-                    if (nearCollision[0].TryGetComponent<Enemy>(out enemy))
+                    if (En.TryGetComponent<Enemy>(out enemy))
                     {
-                        float dis = Vector3.Distance(transform.position, nearCollision[0].transform.position);
+                        float dis = Vector3.Distance(transform.position, En.transform.position);
                         if (dis <= attackRange)
                         {
                             Vector2 exs = new Vector2();
@@ -220,9 +239,9 @@ public class Player : MonoBehaviour
                 }
                 GameManager.Instance.messageUI.Add("단일공격");
             }
-        }else if (Input.GetKeyDown(KeyCode.Q))
+        }else if (Input.GetKeyDown(KeyCode.E))
         {
-            if (SM.nearSkillUpgrade > 0)
+            if (SM.nearSkillUpgrade > 0 && Input.GetKey(KeyCode.LeftControl))
             {
                 SM.rockNearSkill[1] = false;
                 SM.nearSkillLevel[1]++;
@@ -248,28 +267,67 @@ public class Player : MonoBehaviour
                 if (nearCollision.Length != 0)
                 {
                     Enemy enemy;
-                    if (nearCollision[0].TryGetComponent<Enemy>(out enemy))
+                    if (En.TryGetComponent<Enemy>(out enemy))
                     {
-                        float dis = Vector3.Distance(transform.position, nearCollision[0].transform.position);
+                        float dis = Vector3.Distance(transform.position, En.transform.position);
                         if (dis <= attackRange)
                         {
                             Vector2 exs = new Vector2();
-                            switch (SM.nearSkillLevel[0])
+                            switch (SM.nearSkillLevel[1])
                             {
                                 case 1:
                                     exs = enemy.TakeDamage(attackDamage);
+                                    {
+                                        Enemy enemy2;
+                                        if (nearCollision[0].TryGetComponent<Enemy>(out enemy2))
+                                        {
+                                            exs = enemy2.TakeDamage(attackDamage);
+                                        }
+                                    }
                                     break;
                                 case 2:
                                     exs = enemy.TakeDamage(attackDamage * 1.2f);
+                                    for (int i = 0; i <= 1; i++)
+                                    {
+                                        Enemy enemy2;
+                                        if (nearCollision[i].TryGetComponent<Enemy>(out enemy2))
+                                        {
+                                            exs = enemy2.TakeDamage(attackDamage * 1.2f);
+                                        }
+                                    }
                                     break;
                                 case 3:
                                     exs = enemy.TakeDamage(attackDamage * 1.2f);
+                                    for (int i = 0; i <= 1; i++)
+                                    {
+                                        Enemy enemy2;
+                                        if (nearCollision[i].TryGetComponent<Enemy>(out enemy2))
+                                        {
+                                            exs = enemy2.TakeDamage(attackDamage * 1.2f);
+                                        }
+                                    }
                                     break;
                                 case 4:
                                     exs = enemy.TakeDamage(attackDamage * 1.4f);
+                                    for (int i = 0; i <= 2; i++)
+                                    {
+                                        Enemy enemy2;
+                                        if (nearCollision[i].TryGetComponent<Enemy>(out enemy2))
+                                        {
+                                            exs = enemy2.TakeDamage(attackDamage * 1.4f);
+                                        }
+                                    }
                                     break;
                                 case 5:
                                     exs = enemy.TakeDamage(attackDamage * 1.4f);
+                                    for (int i = 0; i <= 3; i++)
+                                    {
+                                        Enemy enemy2;
+                                        if (nearCollision[i].TryGetComponent<Enemy>(out enemy2))
+                                        {
+                                            exs = enemy2.TakeDamage(attackDamage * 1.4f);
+                                        }
+                                    }
                                     break;
                             }
                             if (exs.y <= 0)
@@ -290,9 +348,9 @@ public class Player : MonoBehaviour
                 GameManager.Instance.messageUI.Add("멀티공격");
             }
         }
-        else if (Input.GetKeyDown(KeyCode.E))
+        else if (Input.GetKeyDown(KeyCode.R))
         {
-            if (SM.nearSkillUpgrade > 0)
+            if (SM.nearSkillUpgrade > 0 && Input.GetKey(KeyCode.LeftControl))
             {
                 SM.nearSkillLevel[2]++;
                 SM.nearSkillUpgrade--;
@@ -312,12 +370,98 @@ public class Player : MonoBehaviour
                 }
                 if (SM.nearSkillLevel[2] == 0) return;
                 SM.useNearSkill[2] = true;
+                anim.SetTrigger("Attack");
+                transform.GetComponentInChildren<TrailRenderer>().time = 0.8f;
+                StartCoroutine(TrailReset());
+                if (nearCollision.Length != 0)
+                {
+                    Enemy enemy;
+                    Collider En = new Collider();
+                    float neardis = Mathf.Infinity;
+                    foreach (var en in nearCollision)
+                    {
+                        float dis2 = Vector3.Distance(transform.position, en.transform.position);
+
+                        if (dis2 < neardis)
+                        {
+                            neardis = dis2;
+                            En = en;
+                        }
+                    }
+                    if (En.TryGetComponent<Enemy>(out enemy))
+                    {
+                        float dis = Vector3.Distance(transform.position, En.transform.position);
+                        if (dis <= attackRange)
+                        {
+                            Vector2 exs = new Vector2();
+                            switch (SM.nearSkillLevel[2])
+                            {
+                                case 1:
+                                    exs = enemy.TakeDamage(attackDamage);
+                                    break;
+                                case 2:
+                                    exs = enemy.TakeDamage(attackDamage);
+                                    break;
+                                case 3:
+                                    exs = enemy.TakeDamage(attackDamage * 1.2f);
+                                    break;
+                                case 4:
+                                    exs = enemy.TakeDamage(attackDamage * 1.2f);
+                                    break;
+                                case 5:
+                                    exs = enemy.TakeDamage(attackDamage * 1.5f);
+                                    break;
+                            }
+                            RaycastHit hit;
+                            Debug.DrawRay(enemy.transform.position, transform.forward * 4, Color.red, 2f);
+                            if (Physics.Raycast(enemy.transform.position, transform.forward, out hit, 4, LayerMask.GetMask("Enemy")))
+                            {
+                                Enemy backEnemy;
+                                Debug.Log(hit.ToString());
+                                if (hit.transform.TryGetComponent<Enemy>(out backEnemy))
+                                {
+                                    switch (SM.nearSkillLevel[2])
+                                    {
+                                        case 1:
+                                            exs = backEnemy.TakeDamage(attackDamage *0.5f);
+                                            break;
+                                        case 2:
+                                            exs = backEnemy.TakeDamage(attackDamage * 0.7f);
+                                            break;
+                                        case 3:
+                                            exs = backEnemy.TakeDamage(attackDamage * 0.7f);
+                                            break;
+                                        case 4:
+                                            exs = backEnemy.TakeDamage(attackDamage * 0.8f);
+                                            break;
+                                        case 5:
+                                            exs = backEnemy.TakeDamage(attackDamage);
+                                            break;
+                                    }
+                                }
+                            }
+
+                            if (exs.y <= 0)
+                            {
+                                ex += exs.x / 10;
+                            }
+                            else if (attackDamage >= maxHp)
+                            {
+                                ex += exs.x * hp / maxHp;
+                            }
+                            else
+                            {
+                                ex += exs.x * attackDamage / maxHp;
+                            }
+                        }
+                    }
+                }
                 GameManager.Instance.messageUI.Add("관통공격");
             }
         }
-        else if (Input.GetKeyDown(KeyCode.X))
+        else if (Input.GetKeyDown(KeyCode.F))
         {
-            if (SM.nearSkillUpgrade > 0)
+            if (SM.nearSkillUpgrade > 0 && Input.GetKey(KeyCode.LeftControl))
             {
                 SM.nearSkillLevel[3]++;
                 SM.rockNearSkill[3] = false;
@@ -352,7 +496,7 @@ public class Player : MonoBehaviour
             float v = Input.GetAxis("Vertical");
 
             dir = new Vector3(h, 0, v);
-            if (rb.velocity == Vector3.zero)
+            if (dir == Vector3.zero)
             {
                 anim.SetBool("Move", false);
                 anim.SetBool("Run", false);
@@ -362,7 +506,13 @@ public class Player : MonoBehaviour
                 anim.SetBool("Move", true);
             }
             Vector3 dirLook = transform.forward * dir.z + transform.right * dir.x;
+            Vector3 currentVelocity = rb.velocity;
+
+            // XZ 평면의 속도만 새로운 값으로 설정
+            Vector3 newVelocity = dirLook * speed;
             dirLook.Normalize();
+            newVelocity.y = currentVelocity.y;
+            
 
 
             float currentSpeed = rb.velocity.magnitude;
@@ -380,7 +530,8 @@ public class Player : MonoBehaviour
 
             if (currentSpeed < currentSpeedMax)
             {
-                rb.AddForce(dirLook * speed * 100f * Time.fixedDeltaTime, ForceMode.Force);
+                rb.velocity = newVelocity * speed * 100f * Time.fixedDeltaTime;
+                //rb.AddForce(dirLook * speed * 100f * Time.fixedDeltaTime, ForceMode.Force);
             }
 
         }
@@ -614,9 +765,9 @@ public class Player : MonoBehaviour
                 if (nearCollision.Length != 0)
                 {
                     Enemy enemy;
-                    if (nearCollision[0].TryGetComponent<Enemy>(out enemy))
+                    if (En.TryGetComponent<Enemy>(out enemy))
                     {
-                        float dis = Vector3.Distance(transform.position, nearCollision[0].transform.position);
+                        float dis = Vector3.Distance(transform.position, En.transform.position);
                         if (dis <= attackRange)
                         {
                             Vector2 exs = enemy.TakeDamage(attackDamage);

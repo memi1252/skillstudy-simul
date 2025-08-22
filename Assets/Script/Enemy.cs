@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
             var item = Instantiate(itmes[Random.Range(0, itmes.Length)]);
             item.transform.position = new Vector3(transform.position.x, item.transform.position.y, transform.position.z);
             Destroy(gameObject);
-            
+         
         }
         return new Vector2(giveEx, hp);
     }
