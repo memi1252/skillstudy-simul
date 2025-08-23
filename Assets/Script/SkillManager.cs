@@ -29,11 +29,11 @@ public class SkillManager : MonoBehaviour
 
     public float[] currentNearSkillColTime;
     public float[] currentFarSkillColTime;
-    public float[] currentEnemySkillColTime;
+    public float[] currentMagicSkillColTime;
 
     public bool[] useNearSkill;
     public bool[] useFarSkill;
-    public bool[] useEnemySkill;
+    public bool[] useMagicSkill;
 
     public Image[] nearSkillImgae;
     public Image[] farSkillImgae;
@@ -90,6 +90,10 @@ public class SkillManager : MonoBehaviour
                 {
                     nearSkillUpgradeButton[i].gameObject.SetActive(true);
                 }
+                else
+                {
+                    nearSkillUpgradeButton[i].gameObject.SetActive(false);
+                }
             }
 
         }
@@ -101,7 +105,54 @@ public class SkillManager : MonoBehaviour
             }
         }
 
-            Skill();
+        if (farSkillUpgrade > 0)
+        {
+            for (int i = 0; i < farSkillLevel.Length; i++)
+            {
+                if (farSkillLevel[i] < 5)
+                {
+                    farSkillUpgradeButton[i].gameObject.SetActive(true);
+                }
+                else
+                {
+                    farSkillUpgradeButton[i].gameObject.SetActive(false);
+                }
+            }
+
+        }
+        else
+        {
+            for (int i = 0; i < farSkillUpgradeButton.Length; i++)
+            {
+                farSkillUpgradeButton[i].gameObject.SetActive(false);
+            }
+        }
+
+        if (magicSkillUpgrade > 0)
+        {
+            for (int i = 0; i < magicSkillLevel.Length; i++)
+            {
+                if (magicSkillLevel[i] < 5)
+                {
+                    magicSkillUpgradeButton[i].gameObject.SetActive(true);
+                }
+                else
+                {
+                    magicSkillUpgradeButton[i].gameObject.SetActive(false);
+                }
+            }
+
+        }
+        else
+        {
+            for (int i = 0; i < magicSkillUpgradeButton.Length; i++)
+            {
+                magicSkillUpgradeButton[i].gameObject.SetActive(false);
+            }
+        }
+
+
+        Skill();
         for (int i = 0; i < rockNearSkillImage.Length; i++)
         {
             if (!rockNearSkill[i])
@@ -147,8 +198,10 @@ public class SkillManager : MonoBehaviour
                 player.NearSkill();
                 break;
             case playerStats.far:
+                player.FarSkill();
                 break;
             case playerStats.magic:
+                player.MagicSkill();
                 break;
         }
 
@@ -158,8 +211,8 @@ public class SkillManager : MonoBehaviour
             if (useNearSkill[i])
             {
                 currentNearSkillColTime[i] += Time.deltaTime;
-                nearSkillImgae[i].fillAmount = 1-(currentNearSkillColTime[i] / nearSkill[i].colTime[nearSkillLevel[i]]);
-                if (currentNearSkillColTime[i] > nearSkill[i].colTime[nearSkillLevel[i]])
+                nearSkillImgae[i].fillAmount = 1-(currentNearSkillColTime[i] / nearSkill[i].colTime[nearSkillLevel[i]-1]);
+                if (currentNearSkillColTime[i] > nearSkill[i].colTime[nearSkillLevel[i]-1])
                 {
                     currentNearSkillColTime[i] = 0;
                     useNearSkill[i] = false;
@@ -168,6 +221,42 @@ public class SkillManager : MonoBehaviour
             else
             {
                 nearSkillImgae[i].fillAmount = 0;
+            }
+        }
+
+        for (int i = 0; i < useFarSkill.Length; i++)
+        {
+            if (useFarSkill[i])
+            {
+                currentFarSkillColTime[i] += Time.deltaTime;
+                farSkillImgae[i].fillAmount = 1 - (currentFarSkillColTime[i] / farSkill[i].colTime[farSkillLevel[i] - 1]);
+                if (currentFarSkillColTime[i] > farSkill[i].colTime[farSkillLevel[i] - 1])
+                {
+                    currentFarSkillColTime[i] = 0;
+                    useFarSkill[i] = false;
+                }
+            }
+            else
+            {
+                farSkillImgae[i].fillAmount = 0;
+            }
+        }
+
+        for (int i = 0; i < useMagicSkill.Length; i++)
+        {
+            if (useMagicSkill[i])
+            {
+                currentMagicSkillColTime[i] += Time.deltaTime;
+                magicSkillImgae[i].fillAmount = 1 - (currentMagicSkillColTime[i] / magicSkill[i].colTime[magicSkillLevel[i] - 1]);
+                if (currentMagicSkillColTime[i] > magicSkill[i].colTime[magicSkillLevel[i] - 1])
+                {
+                    currentMagicSkillColTime[i] = 0;
+                    useMagicSkill[i] = false;
+                }
+            }
+            else
+            {
+                magicSkillImgae[i].fillAmount = 0;
             }
         }
 

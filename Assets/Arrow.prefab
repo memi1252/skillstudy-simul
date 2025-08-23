@@ -161,6 +161,8 @@ MonoBehaviour:
   damage: 0
   speed: 13
   player: {fileID: 0}
+  penetration: 0
+  maxDis: 0
 --- !u!65 &7115153984622708942
 BoxCollider:
   m_ObjectHideFlags: 0

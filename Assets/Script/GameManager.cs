@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     public List<ItemData> inventory2 = new List<ItemData>();
     public List<ItemData> inventory3 = new List<ItemData>();
 
+    public GameObject[] skillUI;
+
 
     private void Awake()
     {
@@ -48,12 +50,18 @@ public class GameManager : MonoBehaviour
             players[0].root = true;
             players[1].root = false;
             players[2].root = false;
+            skillUI[0].SetActive(true);
+            skillUI[1].SetActive(false);
+            skillUI[2].SetActive(false);
         }else if (Input.GetKeyDown(KeyCode.Alpha2) && !players[1].root)
         {
             messageUI.Add("궁수를 선택하였습니다.", Color.green);
             players[0].root = false;
             players[1].root = true;
             players[2].root = false;
+            skillUI[0].SetActive(false);
+            skillUI[1].SetActive(true);
+            skillUI[2].SetActive(false);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3) && !players[2].root)
         {
@@ -61,6 +69,9 @@ public class GameManager : MonoBehaviour
             players[0].root = false;
             players[1].root = false;
             players[2].root = true;
+            skillUI[0].SetActive(false);
+            skillUI[1].SetActive(false);
+            skillUI[2].SetActive(true);
         }
     }
 

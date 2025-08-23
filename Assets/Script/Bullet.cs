@@ -8,20 +8,31 @@ public class Bullet : MonoBehaviour
     public float damage;
     public float speed;
     public Player player;
+    public bool penetration;
+    public float maxDis;
 
     private void Start()
     {
         Destroy(gameObject, 7);
     }
 
-    public void Set(Player player)
+    public void Set(Player player, float damage)
     {
         this.player = player;
+        this.damage = damage;
     }
 
     private void Update()
     {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
+        if(penetration)
+        {
+            if (Vector3.Distance(transform.position, player.transform.position) > maxDis)
+            {
+                Destroy(gameObject);
+            }
+        }
+        
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -31,7 +42,7 @@ public class Bullet : MonoBehaviour
             Enemy enemy;
             if (collision.gameObject.TryGetComponent<Enemy>(out enemy))
             {
-                Vector2 exs = enemy.TakeDamage(player.attackDamage);
+                Vector2 exs = enemy.TakeDamage(damage);
                 if (exs.y <= 0)
                 {
                     player.ex += exs.x / 10;
@@ -46,6 +57,9 @@ public class Bullet : MonoBehaviour
                 }
             }
         }
-        Destroy(gameObject);
+        if (!penetration)
+        {
+            Destroy(gameObject);
+        }
     }
 }
