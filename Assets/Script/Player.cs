@@ -1,12 +1,8 @@
 using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Presets;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UnityEngine.GraphicsBuffer;
 
 public enum playerStats
 {
@@ -26,15 +22,19 @@ public class Player : MonoBehaviour
     public float maxEx;
     public float hp;
     public float maxHp;
+    public float bastMaxHp;
     public float mp;
     public float maxMp;
-    public int attackDamage;
+    public float attackDamage;
+    public float orizinAttackDamage;
     public float attackSpeed;
-    public int criticalDamagePersent;
+    public float orizinAttackSpeed;
+    public float criticalDamagePersent;
     public float attackRange;
     public int inventoryCount;
     public int maxInventoryCount;
-    public int speed;
+    public float speed;
+    public float orizinSpeed;
     public Image hpSlider;
     public Image mpSlider;
     public Image exSlider;
@@ -66,6 +66,10 @@ public class Player : MonoBehaviour
 
     public Collider En = new Collider();
     public LineRenderer LR;
+
+
+    private Transform arrowDropPos;
+
 
     private void Awake()
     {
@@ -106,6 +110,11 @@ public class Player : MonoBehaviour
         }
         hp = maxHp;
         mp = maxMp;
+        bastMaxHp = maxHp;
+        orizinAttackSpeed = attackSpeed;
+        orizinSpeed = speed;
+        orizinAttackDamage = attackDamage;
+        arrowDropPos = new GameObject().transform;
         StartCoroutine(MpAddOneSecond());
     }
 
@@ -151,6 +160,11 @@ public class Player : MonoBehaviour
             ex -= maxEx;
             level ++;
             maxEx += 15;
+            float rando = Random.value;
+            if(rando < 50 / 100)
+            {
+                SM.passiveSkillPoint++;
+            }
             switch (stats)
             {
                 case playerStats.near:
@@ -189,9 +203,9 @@ public class Player : MonoBehaviour
             }
             if (!SM.useNearSkill[0] && !SM.rockNearSkill[0])
             {
-                if (SM.nearSkill[0].mp[SM.nearSkillLevel[0]] <= mp)
+                if (SM.nearSkill[0].mp[SM.nearSkillLevel[0]-1] <= mp)
                 {
-                    mp -= SM.nearSkill[0].mp[SM.nearSkillLevel[0]];
+                    mp -= SM.nearSkill[0].mp[SM.nearSkillLevel[0]-1];
                 }
                 else
                 {
@@ -262,9 +276,9 @@ public class Player : MonoBehaviour
             }
             if (!SM.useNearSkill[1] && !SM.rockNearSkill[1])
             {
-                if (SM.nearSkill[1].mp[SM.nearSkillLevel[1]] <= mp)
+                if (SM.nearSkill[1].mp[SM.nearSkillLevel[1]-1] <= mp)
                 {
-                    mp -= SM.nearSkill[1].mp[SM.nearSkillLevel[1]];
+                    mp -= SM.nearSkill[1].mp[SM.nearSkillLevel[1]-1];
                 }
                 else
                 {
@@ -444,7 +458,7 @@ public class Player : MonoBehaviour
             {
                 if (SM.nearSkill[2].mp[SM.nearSkillLevel[2]-1] <= mp)
                 {
-                    mp -= SM.nearSkill[2].mp[SM.nearSkillLevel[2]];
+                    mp -= SM.nearSkill[2].mp[SM.nearSkillLevel[2]-1];
                 }
                 else
                 {
@@ -497,35 +511,38 @@ public class Player : MonoBehaviour
                                     exs = enemy.TakeDamage(attackDamage * 1.5f);
                                     break;
                             }
-                            RaycastHit hit;
+                            ;
                             Debug.DrawRay(enemy.transform.position, transform.forward * 4, Color.red, 2f);
-                            if (Physics.Raycast(enemy.transform.position, transform.forward, out hit, 4, LayerMask.GetMask("Enemy")))
+                            RaycastHit[] hit = Physics.RaycastAll(enemy.transform.position, transform.forward, 4, LayerMask.GetMask("Enemy"));
+                            if (hit.Length > 0)
                             {
-                                Enemy backEnemy;
-                                Debug.Log(hit.ToString());
-                                if (hit.transform.TryGetComponent<Enemy>(out backEnemy))
+                                foreach (var ray in hit)
                                 {
-                                    switch (SM.nearSkillLevel[2])
+                                    Enemy backEnemy;
+                                    Debug.Log(hit.ToString());
+                                    if (ray.transform.TryGetComponent<Enemy>(out backEnemy))
                                     {
-                                        case 1:
-                                            exs = backEnemy.TakeDamage(attackDamage *0.5f);
-                                            break;
-                                        case 2:
-                                            exs = backEnemy.TakeDamage(attackDamage * 0.7f);
-                                            break;
-                                        case 3:
-                                            exs = backEnemy.TakeDamage(attackDamage * 0.7f);
-                                            break;
-                                        case 4:
-                                            exs = backEnemy.TakeDamage(attackDamage * 0.8f);
-                                            break;
-                                        case 5:
-                                            exs = backEnemy.TakeDamage(attackDamage);
-                                            break;
+                                        switch (SM.nearSkillLevel[2])
+                                        {
+                                            case 1:
+                                                exs = backEnemy.TakeDamage(attackDamage * 0.5f);
+                                                break;
+                                            case 2:
+                                                exs = backEnemy.TakeDamage(attackDamage * 0.7f);
+                                                break;
+                                            case 3:
+                                                exs = backEnemy.TakeDamage(attackDamage * 0.7f);
+                                                break;
+                                            case 4:
+                                                exs = backEnemy.TakeDamage(attackDamage * 0.8f);
+                                                break;
+                                            case 5:
+                                                exs = backEnemy.TakeDamage(attackDamage);
+                                                break;
+                                        }
                                     }
                                 }
                             }
-
                             if (exs.y <= 0)
                             {
                                 ex += exs.x / 10;
@@ -696,9 +713,9 @@ public class Player : MonoBehaviour
             }
             if (!SM.useFarSkill[0] && !SM.rockFarSkill[0])
             {
-                if (SM.farSkill[0].mp[SM.farSkillLevel[0]] <= mp)
+                if (SM.farSkill[0].mp[SM.farSkillLevel[0]-1] <= mp)
                 {
-                    mp -= SM.farSkill[0].mp[SM.farSkillLevel[0]];
+                    mp -= SM.farSkill[0].mp[SM.farSkillLevel[0]-1];
                 }
                 else
                 {
@@ -741,9 +758,9 @@ public class Player : MonoBehaviour
             }
             if (!SM.useFarSkill[1] && !SM.rockFarSkill[1])
             {
-                if (SM.farSkill[1].mp[SM.farSkillLevel[1]] <= mp)
+                if (SM.farSkill[1].mp[SM.farSkillLevel[1]-1] <= mp)
                 {
-                    mp -= SM.farSkill[1].mp[SM.farSkillLevel[1]];
+                    mp -= SM.farSkill[1].mp[SM.farSkillLevel[1]-1];
                 }
                 else
                 {
@@ -855,7 +872,7 @@ public class Player : MonoBehaviour
             {
                 if (SM.farSkill[2].mp[SM.farSkillLevel[2] - 1] <= mp)
                 {
-                    mp -= SM.farSkill[2].mp[SM.farSkillLevel[2]];
+                    mp -= SM.farSkill[2].mp[SM.farSkillLevel[2]-1];
                 }
                 else
                 {
@@ -916,19 +933,40 @@ public class Player : MonoBehaviour
                     switch (SM.farSkillLevel[3])
                     {
                         case 1:
-                            StartCoroutine(PerformArrowRain(1, 4, 0.5f, true));
+                            StartCoroutine(PerformArrowRain(1, 4, 0.5f, true, false));
                             break;
                         case 2:
-                            StartCoroutine(PerformArrowRain(2, 4, 0.5f, false));
+                            StartCoroutine(PerformArrowRain(2, 4, 0.5f, false, false));
                             break;
                         case 3:
-                            StartCoroutine(PerformArrowRain(2, 6, 0.5f, false));
+                            StartCoroutine(PerformArrowRain(2, 6, 0.5f, false, false));
                             break;
                         case 4:
-                            StartCoroutine(PerformArrowRain(3, 6, 0.25f, false));
+                            StartCoroutine(PerformArrowRain(3, 6, 0.25f, false, false));
                             break;
                         case 5:
-                            StartCoroutine(PerformArrowRain(4, 6, 0.25f, true));
+                            StartCoroutine(PerformArrowRain(4, 6, 0.25f, true, false));
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (SM.farSkillLevel[3])
+                    {
+                        case 1:
+                            StartCoroutine(PerformArrowRain(1, 4, 0.5f, true, true));
+                            break;
+                        case 2:
+                            StartCoroutine(PerformArrowRain(2, 4, 0.5f, false, true));
+                            break;
+                        case 3:
+                            StartCoroutine(PerformArrowRain(2, 6, 0.5f, false, true));
+                            break;
+                        case 4:
+                            StartCoroutine(PerformArrowRain(3, 6, 0.25f, false, true));
+                            break;
+                        case 5:
+                            StartCoroutine(PerformArrowRain(4, 6, 0.25f, true, true));
                             break;
                     }
                 }
@@ -968,19 +1006,19 @@ public class Player : MonoBehaviour
                     switch (SM.magicSkillLevel[0])
                     {
                         case 1:
-                            MagicAttack(En.transform, 2, 1);
+                            MagicAttack(En.transform, 4, 1);
                             break;
                         case 2:
-                            MagicAttack(En.transform, 2, 1.2f);
+                            MagicAttack(En.transform, 4, 1.2f);
                             break;
                         case 3:
-                            MagicAttack(En.transform, 3, 1.5f);
+                            MagicAttack(En.transform, 5, 1.5f);
                             break;
                         case 4:
-                            MagicAttack(En.transform, 3, 1.8f);
+                            MagicAttack(En.transform, 6, 1.8f);
                             break;
                         case 5:
-                            MagicAttack(En.transform, 4, 2);
+                            MagicAttack(En.transform, 7, 2);
                             break;
                     }
                 }
@@ -989,19 +1027,19 @@ public class Player : MonoBehaviour
                     switch (SM.magicSkillLevel[0])
                     {
                         case 1:
-                            MagicAttack(transform, 3, 1);
+                            MagicAttack(transform, 4, 1);
                             break;
                         case 2:
-                            MagicAttack(transform, 3, 1.2f);
+                            MagicAttack(transform, 4, 1.2f);
                             break;
                         case 3:
-                            MagicAttack(transform, 4, 1.5f);
+                            MagicAttack(transform, 5, 1.5f);
                             break;
                         case 4:
-                            MagicAttack(transform, 4, 1.8f);
+                            MagicAttack(transform, 6, 1.8f);
                             break;
                         case 5:
-                            MagicAttack(transform, 5, 2);
+                            MagicAttack(transform, 7, 2);
                             break;
                     }
                 }
@@ -1075,7 +1113,7 @@ public class Player : MonoBehaviour
             {
                 if (SM.magicSkill[2].mp[SM.magicSkillLevel[2] - 1] <= mp)
                 {
-                    mp -= SM.magicSkill[2].mp[SM.magicSkillLevel[2]];
+                    mp -= SM.magicSkill[2].mp[SM.magicSkillLevel[2]-1];
                 }
                 else
                 {
@@ -1152,7 +1190,7 @@ public class Player : MonoBehaviour
                             break;
                     }
                 }
-                GameManager.Instance.messageUI.Add("포이즌");
+                    GameManager.Instance.messageUI.Add("포이즌");
             }
         }
     }
@@ -1204,9 +1242,10 @@ public class Player : MonoBehaviour
     {
         Collider[] hitCollider = Physics.OverlapSphere(En.transform.position, 4, LayerMask.GetMask("Enemy"));
         Vector2 exs = new Vector2();
-        LR.positionCount++;
-        LR.SetPosition(0, En.transform.position);
-        int index = 1;
+        LR.positionCount+=2;
+        LR.SetPosition(0, transform.position);
+        LR.SetPosition(1, En.transform.position);
+        int index = 2;
         for (int i = 0; i < hitCollider.Length; i++)
         { 
             if (i == count-1) break;
@@ -1261,13 +1300,16 @@ public class Player : MonoBehaviour
         {
             Enemy enemy;
             if(hit.TryGetComponent<Enemy>(out enemy)){
-                enemy.TakeDamage(attackDamage * persent);
+                var bullet = Instantiate(bulletPrefab);
+                bullet.transform.position = firePose.position;
+                bullet.transform.LookAt(hit.transform.position);
+                bullet.GetComponent<Bullet>().Set(this, attackDamage * persent);
             }
         }
     }
 
     //원거리 아처 스킬
-    IEnumerator PerformArrowRain(int count, float radius, float time, bool move)
+    IEnumerator PerformArrowRain(int count, float radius, float time, bool move, bool not)
     {
         if (!move)
         {
@@ -1275,7 +1317,16 @@ public class Player : MonoBehaviour
         }
         for(int i = 0; i< count; i++)
         {
-            DropArrows(En.transform, radius);
+            if (not)
+            {
+                arrowDropPos.position = transform.position;
+                arrowDropPos.position += transform.up * 10 + transform.forward * 8;
+                DropArrows(arrowDropPos, radius);
+            }
+            else
+            {
+                DropArrows(En.transform, radius);
+            }
             yield return new WaitForSeconds(time);
         }
         if (!move)
@@ -1300,7 +1351,7 @@ public class Player : MonoBehaviour
             bullet.transform.localScale = Vector3.one * 1.5f;
             bullet.transform.eulerAngles = new Vector3(90, 0, 0);
             bullet.GetComponent<Bullet>().Set(this, attackDamage);
-            bullet.GetComponent<BoxCollider>().size *= 1.5f;
+            bullet.GetComponent<BoxCollider>().size *= 3f;
             Rigidbody arrowRb = bullet.GetComponent<Rigidbody>();
             if (arrowRb != null)
             {
@@ -1631,7 +1682,17 @@ public class Player : MonoBehaviour
                         float dis = Vector3.Distance(transform.position, En.transform.position);
                         if (dis <= attackRange)
                         {
-                            Vector2 exs = enemy.TakeDamage(attackDamage);
+                            float randomValue = Random.value;
+                            float chanceNor = criticalDamagePersent / 100;
+                            Vector2 exs = Vector2.zero;
+                            if (randomValue <= chanceNor)
+                            {
+                                exs = enemy.TakeDamage(attackDamage * 2);
+                            }
+                            else
+                            {
+                                exs = enemy.TakeDamage(attackDamage);
+                            }
                             if (exs.y <= 0)
                             {
                                 ex += exs.x / 10;

@@ -67,7 +67,7 @@ public class RankManager : MonoBehaviour
 #if UNITY_EDITOR
         string path = Path.Combine(Application.dataPath, saveName);
 #else
-         string path = Path.Combine(Directory.GetParent(Application.dataPath).FullName, saveName);
+        string path = Path.Combine(Directory.GetParent(Application.dataPath).FullName, saveName);
 #endif
 
         if (File.Exists(path))
@@ -91,6 +91,7 @@ public class RankManager : MonoBehaviour
         data.score = Score;
         this.data.Add(data);
         this.data = this.data.OrderByDescending(rank => rank.score).ToList();
+        Save();
     }
 
     private void Update()

@@ -12,13 +12,16 @@ public class Enemy : MonoBehaviour
     public GameObject[] itmes;
     public bool isStun;
     public float currentStunTime;
-    private ParticleSystem ParticleSystem;
+    public ParticleSystem hitParticle;
+    public ParticleSystem prozenParticle;
     private bool speedDown;
     private float orizinSpeed;
+    public Transform target;
+    private Rigidbody rb;
 
     private void Awake()
     {
-        ParticleSystem = GetComponentInChildren<ParticleSystem>();
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Start()
@@ -44,14 +47,32 @@ public class Enemy : MonoBehaviour
             item.transform.position = new Vector3(transform.position.x, item.transform.position.y, transform.position.z);
             Destroy(gameObject);
         }
+
+        if(target != null)
+        {
+            transform.LookAt(target);
+            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+            Vector3 dir = transform.forward;
+            rb.velocity = dir * speed * 100f* Time.deltaTime;
+        }
     }
 
     public Vector2 TakeDamage(float damage)
     {
         hp -= damage;
-        if(ParticleSystem != null)
+        if(speedDown)
         {
-            ParticleSystem.Play();
+            if (prozenParticle != null)
+            {
+                prozenParticle.Play();
+            }
+        }
+        else
+        {
+            if (hitParticle != null)
+            {
+                hitParticle.Play();
+            }
         }
         return new Vector2(giveEx, hp);
     }

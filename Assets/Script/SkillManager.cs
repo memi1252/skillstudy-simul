@@ -55,6 +55,10 @@ public class SkillManager : MonoBehaviour
     public Button[] farSkillUpgradeButton;
     public Button[] magicSkillUpgradeButton;
 
+    public int[] passiveSkillLevel = new int[5];
+    public int passiveSkillPoint = 0;
+
+
     private void Awake()
     {
         if(instance == null)
@@ -168,6 +172,181 @@ public class SkillManager : MonoBehaviour
                 rockMagicSkillImage[i].gameObject.SetActive(false);
             }
         }
+
+        if(passiveSkillPoint > 0)
+        {
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                if (passiveSkillLevel[0] == 5) return;
+                passiveSkillLevel[0]++;
+                passiveSkillPoint--;
+                foreach (var playerObj in GameObject.FindGameObjectsWithTag("Player"))
+                {
+                    Player player;
+                    if (playerObj.TryGetComponent<Player>(out player))
+                    {
+                        switch (passiveSkillLevel[0])
+                        {
+                            case 1:
+                                player.criticalDamagePersent += player.criticalDamagePersent * 0.1f;
+                                break;
+                            case 2:
+                                player.criticalDamagePersent += player.criticalDamagePersent * 0.2f;
+                                break;
+                            case 3:
+                                player.criticalDamagePersent += player.criticalDamagePersent * 0.3f;
+                                break;
+                            case 4:
+                                player.criticalDamagePersent += player.criticalDamagePersent * 0.4f;
+                                break;
+                            case 5:
+                                player.criticalDamagePersent += player.criticalDamagePersent * 0.5f;
+                                break;
+                        }
+                    }
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                if (passiveSkillLevel[1] == 5) return;
+                passiveSkillLevel[1]++;
+                passiveSkillPoint--;
+                foreach (var playerObj in GameObject.FindGameObjectsWithTag("Player"))
+                {
+                    Player player;
+                    if (playerObj.TryGetComponent<Player>(out player))
+                    {
+                        switch (passiveSkillLevel[1])
+                        {
+                            case 1:
+                                player.attackSpeed = player.orizinAttackSpeed / (1f + 0.5f);
+                                break;
+                            case 2:
+                                player.attackSpeed = player.orizinAttackSpeed / (1f + 1f);
+                                break;
+                            case 3:
+                                player.attackSpeed = player.orizinAttackSpeed / (1f + 1.5f);
+                                break;
+                            case 4:
+                                player.attackSpeed = player.orizinAttackSpeed / (1f + 2f);
+                                break;
+                            case 5:
+                                player.attackSpeed = player.orizinAttackSpeed / (1f + 3f);
+                                break;
+                        }
+                    }
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                if (passiveSkillLevel[2] == 5) return;
+                passiveSkillLevel[2]++;
+                passiveSkillPoint--;
+                foreach (var playerObj in GameObject.FindGameObjectsWithTag("Player"))
+                {
+                    Player player;
+                    if (playerObj.TryGetComponent<Player>(out player))
+                    {
+                        switch (passiveSkillLevel[2])
+                        {
+                            case 1:
+                                player.maxHp = player.bastMaxHp + 400;
+                                player.hp += 400;
+                                if (player.hp > player.maxHp)
+                                    player.hp = player.maxHp;
+                                break;
+                            case 2:
+                                player.maxHp = player.bastMaxHp + 400;
+                                player.hp += 400;
+                                if (player.hp > player.maxHp)
+                                    player.hp = player.maxHp;
+                                break;
+                            case 3:
+                                player.maxHp = player.bastMaxHp + 600;
+                                player.hp += 600;
+                                if (player.hp > player.maxHp)
+                                    player.hp = player.maxHp;
+                                break;
+                            case 4:
+                                player.maxHp = player.bastMaxHp + 800;
+                                player.hp += 800;
+                                if (player.hp > player.maxHp)
+                                    player.hp = player.maxHp;
+                                break;
+                            case 5:
+                                player.maxHp = player.bastMaxHp + 1000;
+                                player.hp += 1000;
+                                if (player.hp > player.maxHp)
+                                    player.hp = player.maxHp;
+                                break;
+                        }
+                    }
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                if (passiveSkillLevel[3] == 5) return;
+                passiveSkillLevel[3]++;
+                passiveSkillPoint--;
+                foreach (var playerObj in GameObject.FindGameObjectsWithTag("Player"))
+                {
+                    Player player;
+                    if (playerObj.TryGetComponent<Player>(out player))
+                    {
+                        switch (passiveSkillLevel[3])
+                        {
+                            case 1:
+                                player.speed = player.orizinSpeed * (1f + 0.5f);
+                                break;
+                            case 2:
+                                player.speed = player.orizinSpeed * (1f + 1f);
+                                break;
+                            case 3:
+                                player.speed = player.orizinSpeed * (1f + 1.2f);
+                                break;
+                            case 4:
+                                player.speed = player.orizinSpeed * (1f + 1.5f);
+                                break;
+                            case 5:
+                                player.speed = player.orizinSpeed * (1f + 2f);
+                                break;
+                        }
+                    }
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                if (passiveSkillLevel[4] == 5) return;
+                passiveSkillLevel[4]++;
+                passiveSkillPoint--;
+                foreach (var playerObj in GameObject.FindGameObjectsWithTag("Player"))
+                {
+                    Player player;
+                    if (playerObj.TryGetComponent<Player>(out player))
+                    {
+                        switch (passiveSkillLevel[3])
+                        {
+                            case 1:
+                                player.attackDamage = player.orizinAttackDamage * (1f + 0.2f);
+                                break;
+                            case 2:
+                                player.attackDamage = player.orizinAttackDamage * (1f + 0.4f);
+                                break;
+                            case 3:
+                                player.attackDamage = player.orizinAttackDamage * (1f + 0.6f);
+                                break;
+                            case 4:
+                                player.attackDamage = player.orizinAttackDamage * (1f + 0.8f);
+                                break;
+                            case 5:
+                                player.attackDamage = player.orizinAttackDamage * (1f + 1f);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        
     }
 
     public void SkillUpgrade(int count)
