@@ -48,14 +48,22 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if(target != null)
+        
+    }
+
+    private void FixedUpdate()
+    {
+        if (target != null)
         {
             transform.LookAt(target);
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
             Vector3 dir = transform.forward;
-            rb.velocity = dir * speed * 100f* Time.deltaTime;
+            dir.Normalize();
+            rb.velocity = dir * speed;
         }
     }
+
+
 
     public Vector2 TakeDamage(float damage)
     {

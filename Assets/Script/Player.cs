@@ -1468,7 +1468,8 @@ public class Player : MonoBehaviour
                                     {
                                         transform.LookAt(player.pos1);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-                                        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+                                        Vector3 dir = transform.forward + transform.right;
+                                        rb.velocity =dir * speed * 100 * Time.fixedDeltaTime;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1487,7 +1488,8 @@ public class Player : MonoBehaviour
                                     {
                                         transform.LookAt(player.pos2);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-                                        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+                                        Vector3 dir = transform.forward + transform.right;
+                                        rb.velocity = dir * speed * 100 * Time.fixedDeltaTime;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1517,7 +1519,8 @@ public class Player : MonoBehaviour
                                     {
                                         transform.LookAt(player.pos1);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-                                        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+                                        Vector3 dir = transform.forward + transform.right;
+                                        rb.velocity = dir * speed * 100 * Time.fixedDeltaTime;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1536,7 +1539,8 @@ public class Player : MonoBehaviour
                                     {
                                         transform.LookAt(player.pos1);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-                                        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+                                        Vector3 dir = transform.forward + transform.right;
+                                        rb.velocity = dir * speed * 100 * Time.fixedDeltaTime;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1565,7 +1569,8 @@ public class Player : MonoBehaviour
                                     {
                                         transform.LookAt(player.pos2);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-                                        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+                                        Vector3 dir = transform.forward + transform.right;
+                                        rb.velocity = dir * speed * 100 * Time.fixedDeltaTime;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1584,7 +1589,8 @@ public class Player : MonoBehaviour
                                     {
                                         transform.LookAt(player.pos2);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-                                        transform.Translate(Vector3.forward * speed * Time.deltaTime);
+                                        Vector3 dir = transform.forward + transform.right;
+                                        rb.velocity = dir * speed * 100 * Time.fixedDeltaTime;
                                         anim.SetBool("Move", true);
                                     }
                                     else
