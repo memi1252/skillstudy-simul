@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.nkstudio.udiscordbot": "https://github.com/NK-Studio/UDiscord-Bot.git?path=Assets/Plugins/UDiscordBot",
     "com.unity.collab-proxy": "2.8.2",
     "com.unity.feature.development": "1.0.1",
     "com.unity.textmeshpro": "3.0.7",

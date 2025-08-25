@@ -159,7 +159,7 @@ public class Player : MonoBehaviour
         {
             ex -= maxEx;
             level ++;
-            maxEx += 15;
+            maxEx += 500;
             float rando = Random.value;
             if(rando < 50 / 100)
             {
@@ -171,19 +171,22 @@ public class Player : MonoBehaviour
                     maxHp += 20;
                     hp = maxHp;
                     attackDamage += 10;
-                    SkillManager.instance.nearSkillUpgrade++;
+                    if(level /2  == 0)
+                        SkillManager.instance.nearSkillUpgrade++;
                     break;
                 case playerStats.far:
                     maxHp += 15;
                     hp = maxHp;
                     attackDamage += 8;
-                    SkillManager.instance.farSkillUpgrade++;
+                    if (level / 2 == 0)
+                        SkillManager.instance.farSkillUpgrade++;
                     break;
                 case playerStats.magic:
                     maxHp += 10;
                     hp = maxHp;
                     attackDamage += 10;
-                    SkillManager.instance.magicSkillUpgrade++;
+                    if (level / 2 == 0)
+                        SkillManager.instance.magicSkillUpgrade++;
                     break;
             }
         }
@@ -1305,6 +1308,14 @@ public class Player : MonoBehaviour
                 bullet.transform.LookAt(hit.transform.position);
                 bullet.GetComponent<Bullet>().Set(this, attackDamage * persent);
             }
+        }
+
+        if(hits.Length == 0)
+        {
+            var bullet = Instantiate(bulletPrefab);
+            bullet.transform.position = firePose.position;
+            bullet.transform.eulerAngles = firePose.eulerAngles;
+            bullet.GetComponent<Bullet>().Set(this, attackDamage);
         }
     }
 

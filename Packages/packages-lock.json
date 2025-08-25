@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.nkstudio.udiscordbot": {
+      "version": "https://github.com/NK-Studio/UDiscord-Bot.git?path=Assets/Plugins/UDiscordBot",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "638863fa437aecd8a79a119d9ed586f795c2e2d8"
+    },
     "com.unity.collab-proxy": {
       "version": "2.8.2",
       "depth": 0,

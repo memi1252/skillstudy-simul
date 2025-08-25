@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
     public Transform target;
     private Rigidbody rb;
     private Animator animator;
+    //public bool isAttack;
 
     private void Awake()
     {
@@ -54,7 +55,6 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
 
-        Attack();
     }
 
     private void FixedUpdate()
@@ -71,11 +71,21 @@ public class Enemy : MonoBehaviour
 
         if (target != null)
         {
-            transform.LookAt(target);
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-            Vector3 dir = transform.forward;
-            dir.Normalize();
-            rb.velocity = dir * speed;
+
+            float dis = Vector3.Distance(transform.position, target.position);
+            if (dis < attackRange)
+            {
+                Attack();
+            }
+            else
+            {
+                transform.LookAt(target);
+                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+                Vector3 dir = transform.forward;
+                dir.Normalize();
+                rb.velocity = dir * speed;
+            }
+               
         }
     }
 
@@ -83,19 +93,28 @@ public class Enemy : MonoBehaviour
     {
         if(target != null)
         {
+            currentAttackSpeed += Time.deltaTime;
             float dis = Vector3.Distance(transform.position, target.position);
-            if(dis < attackRange)
+            if (dis > attackRange)
             {
-                currentAttackSpeed += Time.deltaTime;
-                if(currentAttackSpeed > attackSpeed)
+                currentAttackSpeed = 0;
+            }
+            if (currentAttackSpeed > attackSpeed)
+            {
+                currentAttackSpeed = 0;
+                if(Random.Range(0, 2) == 1)
                 {
-                    currentAttackSpeed = 0;
-                    animator.SetTrigger("Attack");
-                    Player player;
-                    if(target.TryGetComponent<Player>(out player))
-                    {
-                        player.TakeDamage(attackDamage);
-                    }
+                    animator.SetTrigger("RightAttack");
+                }
+                else
+                {
+                    animator.SetTrigger("LaftAttack");
+                }
+                    
+                Player player;
+                if (target.TryGetComponent<Player>(out player))
+                {
+                    player.TakeDamage(attackDamage);
                 }
             }
         }
