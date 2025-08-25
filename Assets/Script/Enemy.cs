@@ -9,6 +9,9 @@ public class Enemy : MonoBehaviour
     public float maxHp;
     public int giveEx;
     public float speed = 4;
+    public float attackDamage;
+    public float attackRange;
+    public float attackSpeed;
     public GameObject[] itmes;
     public bool isStun;
     public float currentStunTime;
@@ -16,12 +19,15 @@ public class Enemy : MonoBehaviour
     public ParticleSystem prozenParticle;
     private bool speedDown;
     private float orizinSpeed;
+    private float currentAttackSpeed;
     public Transform target;
     private Rigidbody rb;
+    private Animator animator;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -48,11 +54,21 @@ public class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
 
-        
+        Attack();
     }
 
     private void FixedUpdate()
     {
+        if(rb.velocity == Vector3.zero)
+        {
+            animator.SetBool("Move", false);
+        }
+        else
+        {
+            animator.SetBool("Move", true);
+        }
+
+
         if (target != null)
         {
             transform.LookAt(target);
@@ -63,11 +79,34 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void Attack()
+    {
+        if(target != null)
+        {
+            float dis = Vector3.Distance(transform.position, target.position);
+            if(dis < attackRange)
+            {
+                currentAttackSpeed += Time.deltaTime;
+                if(currentAttackSpeed > attackSpeed)
+                {
+                    currentAttackSpeed = 0;
+                    animator.SetTrigger("Attack");
+                    Player player;
+                    if(target.TryGetComponent<Player>(out player))
+                    {
+                        player.TakeDamage(attackDamage);
+                    }
+                }
+            }
+        }
+    }
+
 
 
     public Vector2 TakeDamage(float damage)
     {
         hp -= damage;
+        animator.SetTrigger("Hit");
         if(speedDown)
         {
             if (prozenParticle != null)
@@ -100,5 +139,10 @@ public class Enemy : MonoBehaviour
     {
         speedDown = false;
         speed = orizinSpeed;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }

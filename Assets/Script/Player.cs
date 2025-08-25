@@ -1469,7 +1469,7 @@ public class Player : MonoBehaviour
                                         transform.LookAt(player.pos1);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                                         Vector3 dir = transform.forward + transform.right;
-                                        rb.velocity =dir * speed * 100 * Time.fixedDeltaTime;
+                                        rb.velocity =dir * speed * 50 * Time.fixedDeltaTime;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1489,7 +1489,7 @@ public class Player : MonoBehaviour
                                         transform.LookAt(player.pos2);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                                         Vector3 dir = transform.forward + transform.right;
-                                        rb.velocity = dir * speed * 100 * Time.fixedDeltaTime;
+                                        rb.velocity = dir * speed * 50 * Time.fixedDeltaTime;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1520,7 +1520,7 @@ public class Player : MonoBehaviour
                                         transform.LookAt(player.pos1);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                                         Vector3 dir = transform.forward + transform.right;
-                                        rb.velocity = dir * speed * 100 * Time.fixedDeltaTime;
+                                        rb.velocity = dir * speed * 50 * Time.fixedDeltaTime;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1540,7 +1540,7 @@ public class Player : MonoBehaviour
                                         transform.LookAt(player.pos1);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                                         Vector3 dir = transform.forward + transform.right;
-                                        rb.velocity = dir * speed * 100 * Time.fixedDeltaTime;
+                                        rb.velocity = dir * speed * 50 * Time.fixedDeltaTime;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1570,7 +1570,7 @@ public class Player : MonoBehaviour
                                         transform.LookAt(player.pos2);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                                         Vector3 dir = transform.forward + transform.right;
-                                        rb.velocity = dir * speed * 100 * Time.fixedDeltaTime;
+                                        rb.velocity = dir * speed * 50 * Time.fixedDeltaTime;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1590,7 +1590,7 @@ public class Player : MonoBehaviour
                                         transform.LookAt(player.pos2);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                                         Vector3 dir = transform.forward + transform.right;
-                                        rb.velocity = dir * speed * 100 * Time.fixedDeltaTime;
+                                        rb.velocity = dir * speed * 50 * Time.fixedDeltaTime;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1722,6 +1722,33 @@ public class Player : MonoBehaviour
                 bullet.transform.eulerAngles = firePose.eulerAngles;
                 bullet.GetComponent<Bullet>().Set(this, attackDamage);
                 break;
+        }
+    }
+
+    public  void TakeDamage(float damage)
+    {
+        hp -= damage;
+        anim.SetTrigger("Hit");
+        if (hp <= 0)
+        {
+            foreach (var playerObj in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                Player player;
+                if(playerObj.TryGetComponent<Player>(out player))
+                {
+                    if (this != player)
+                    {
+                        switch (player.stats)
+                        {
+                            case playerStats.near:
+                                //죽었을떄 다른 캐릭터로 전환
+                                break;
+                        }
+                    }
+                }
+                
+            }
+            Destroy(gameObject);
         }
     }
 
