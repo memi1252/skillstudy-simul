@@ -4,8 +4,18 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum EnemyStats
+{
+    naer,
+    far,
+    boss1,
+    boss2,
+    boss3
+}
+
 public class Enemy : MonoBehaviour
 {
+    public EnemyStats stats;
     public float hp;
     public float maxHp;
     public int giveEx;
@@ -120,6 +130,7 @@ public class Enemy : MonoBehaviour
                     Vector3 dir = transform.forward;
                     dir.Normalize();
                     rb.velocity = dir * speed;
+
                 }
             }
                
@@ -140,20 +151,29 @@ public class Enemy : MonoBehaviour
             if (currentAttackSpeed > attackSpeed)
             {
                 currentAttackSpeed = 0;
-                if(Random.Range(0, 2) == 1)
+                animator.SetBool("Move", false);
+                switch (stats)
                 {
-                    animator.SetTrigger("RightAttack");
+                    case EnemyStats.naer:
+                        if (Random.Range(0, 2) == 1)
+                        {
+                            animator.SetTrigger("RightAttack");
+                        }
+                        else
+                        {
+                            animator.SetTrigger("LaftAttack");
+                        }
+
+                        Player player;
+                        if (target.TryGetComponent<Player>(out player))
+                        {
+                            player.TakeDamage(attackDamage);
+                        }
+                        break;
+                    case EnemyStats.far:
+                        break;
                 }
-                else
-                {
-                    animator.SetTrigger("LaftAttack");
-                }
-                    
-                Player player;
-                if (target.TryGetComponent<Player>(out player))
-                {
-                    player.TakeDamage(attackDamage);
-                }
+                
             }
         }
     }

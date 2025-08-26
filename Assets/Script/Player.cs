@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.VersionControl;
@@ -185,8 +186,8 @@ public class Player : MonoBehaviour
         {
             ex -= maxEx;
             level ++;
-            maxEx += 500;
-            float rando = Random.value;
+            maxEx += 250;
+            float rando = UnityEngine.Random.value;
             if(rando < 50 / 100)
             {
                 SM.passiveSkillPoint++;
@@ -653,7 +654,7 @@ public class Player : MonoBehaviour
                                 case 1:
                                     exs = enemy.TakeDamage(attackDamage);
                                     {
-                                        int index = Random.Range(0, 2);
+                                        int index = UnityEngine.Random.Range(0, 2);
                                         if (index == 1)
                                         {
                                             enemy.isStun = true;
@@ -663,7 +664,7 @@ public class Player : MonoBehaviour
                                 case 2:
                                     exs = enemy.TakeDamage(attackDamage * 1.5f);
                                     {
-                                        int index = Random.Range(0, 2);
+                                        int index = UnityEngine.Random.Range(0, 2);
                                         if (index == 1)
                                         {
                                             enemy.isStun = true;
@@ -1428,7 +1429,7 @@ public class Player : MonoBehaviour
     {
         for (int i = 0; i < 50; i++)
         {
-            Vector2 randomCircle = Random.insideUnitCircle * radius;
+            Vector2 randomCircle = UnityEngine.Random.insideUnitCircle * radius;
             Vector3 dropPosition = new Vector3(
                 center.position.x + randomCircle.x,
                 center.position.y + 10f, 
@@ -1578,8 +1579,8 @@ public class Player : MonoBehaviour
                                 {
                                     if (Vector3.Distance(transform.position, player.pos2.position) > 1.5f)
                                     {
-                                        transform.LookAt(player.pos2);
-                                        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+                                        transform.LookAt(player.pos2, Vector3.up);
+                                        //transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                                         Vector3 dir = transform.forward + transform.right;
                                         rb.velocity = dir * speed * 50 * Time.fixedDeltaTime;
                                         anim.SetBool("Move", true);
@@ -1727,22 +1728,14 @@ public class Player : MonoBehaviour
                         currentAiSkillAttackTime += Time.deltaTime;
                         if(currentAiSkillAttackTime > aiSkillAttackTime)
                         {
-                            switch (stats)
-                            {
-                                case playerStats.near:
-                                    int index = RandomIndex();
-                                    if (!SM.rockNearSkill[index] && SM.useNearSkill[index])
-                                    {
-                                        // 여기서 부터 시작
-                                    }
-                                    else
-                                    {
-
-                                    }
-                                    break;
-                            }
+                            RandomSKill();
+                            currentAiSkillAttackTime = 0;
                         }
-                        Attack2();
+                        else
+                        {
+                            Attack2();
+                        }
+                            
                         transform.LookAt(En.transform.position);
                         anim.SetBool("Move", false);
                         foreach (var playerObj in GameObject.FindGameObjectsWithTag("Player"))
@@ -1782,9 +1775,62 @@ public class Player : MonoBehaviour
         }
     }
 
-    public int RandomIndex()
+    public void RandomSKill()
     {
-        return Random.Range(0, 5);
+        bool[] rockSkills;
+        bool[] useSkills;
+        Action[] skills;
+        // stats에 따라 적절한 배열을 할당
+        switch (stats)
+        {
+            case playerStats.near:
+                rockSkills = SM.rockNearSkill;
+                useSkills = SM.useNearSkill;
+                skills = new Action[] { NearSkill1, NearSkill2, NearSkill3, NearSkill4 };
+                break;
+            case playerStats.far:
+                rockSkills = SM.rockFarSkill;
+                useSkills = SM.useFarSkill;
+                skills = new Action[] { FarSkill1, FarSkill2, FarSkill3, FarSkill4 };
+                break;
+            case playerStats.magic:
+                rockSkills = SM.rockMagicSkill;
+                useSkills = SM.useMagicSkill;
+                skills = new Action[] { MagicSkill1, MagicSkill2, MagicSkill3, MagicSkill4 };
+                break;
+            default:
+                return; // 유효하지 않은 stats
+        }
+
+        // 사용 가능한 스킬 인덱스를 저장할 리스트
+        List<int> usableSkillIndices = new List<int>();
+
+        for (int i = 0; i < skills.Length; i++)
+        {
+            if (!rockSkills[i] && !useSkills[i])
+            {
+                usableSkillIndices.Add(i);
+            }
+        }
+
+
+        // 사용 가능한 스킬의 개수에 따라 로직 분기
+        if (usableSkillIndices.Count == 0)
+        {
+            return;
+        }
+        else if (usableSkillIndices.Count == 1)
+        {
+            int index = usableSkillIndices[0];
+            skills[index]?.Invoke();
+        }
+        else // usableSkillIndices.Count >= 2
+        {
+            // 리스트에서 무작위로 하나 선택
+            int randomIndex = UnityEngine.Random.Range(0, usableSkillIndices.Count);
+            int index = usableSkillIndices[randomIndex];
+            skills[index]?.Invoke();
+        }
     }
 
     public void Attack2()
@@ -1806,7 +1852,7 @@ public class Player : MonoBehaviour
                         float dis = Vector3.Distance(transform.position, En.transform.position);
                         if (dis <= attackRange)
                         {
-                            float randomValue = Random.value;
+                            float randomValue = UnityEngine.Random.value;
                             float chanceNor = criticalDamagePersent / 100;
                             Vector2 exs = Vector2.zero;
                             if (randomValue <= chanceNor)
@@ -1860,7 +1906,7 @@ public class Player : MonoBehaviour
                 {
                     if (this != player)
                     {
-                        if (player.hp > 0)
+                        if (player.hp <= 0)
                         {
                             switch (player.stats)
                             {

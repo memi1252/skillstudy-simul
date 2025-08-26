@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     public float damage;
     public float speed;
     public Player player;
+    public Enemy enemy;
     public bool penetration;
     public float maxDis;
 
@@ -19,6 +20,11 @@ public class Bullet : MonoBehaviour
     public void Set(Player player, float damage)
     {
         this.player = player;
+        this.damage = damage;
+    }
+    public void Set(Enemy enemy, float damage)
+    {
+        this.enemy = enemy;
         this.damage = damage;
     }
 
@@ -37,26 +43,42 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if(player != null)
         {
-            Enemy enemy;
-            if (collision.gameObject.TryGetComponent<Enemy>(out enemy))
+            if (collision.gameObject.CompareTag("Enemy"))
             {
-                Vector2 exs = enemy.TakeDamage(damage);
-                if (exs.y <= 0)
+                Enemy enemy;
+                if (collision.gameObject.TryGetComponent<Enemy>(out enemy))
                 {
-                    player.ex += exs.x / 10;
-                }
-                else if (player.attackDamage >= player.maxHp)
-                {
-                    player.ex += exs.x * player.hp / player.maxHp;
-                }
-                else
-                {
-                    player.ex += exs.x * player.attackDamage / player.maxHp;
+                    Vector2 exs = enemy.TakeDamage(damage);
+                    if (exs.y <= 0)
+                    {
+                        player.ex += exs.x / 10;
+                    }
+                    else if (player.attackDamage >= player.maxHp)
+                    {
+                        player.ex += exs.x * player.hp / player.maxHp;
+                    }
+                    else
+                    {
+                        player.ex += exs.x * player.attackDamage / player.maxHp;
+                    }
                 }
             }
         }
+        if(enemy != null)
+        {
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                Player player;
+                if (collision.gameObject.TryGetComponent<Player>(out player))
+                {
+                    player.TakeDamage(damage);
+                }
+            }
+        }
+        
+
         if (!penetration)
         {
             Destroy(gameObject);

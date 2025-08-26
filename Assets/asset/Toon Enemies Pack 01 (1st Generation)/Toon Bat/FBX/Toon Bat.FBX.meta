@@ -16,7 +16,8 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'LeftLowerLeg' not found\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -24,7 +25,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -93,7 +94,92 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: Toon Bat(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Toon Bat
+      parentName: Toon Bat(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Rig
+      parentName: Toon Bat(Clone)
+      position: {x: -0.0000000028860028, y: 0.0000000028860028, z: -0.06602405}
+      rotation: {x: 0.50000006, y: -0.50000006, z: -0.49999997, w: 0.49999997}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RigLArm2Gizmo
+      parentName: Toon Bat(Clone)
+      position: {x: -0.8077168, y: 1.0897548, z: -0.21276797}
+      rotation: {x: 0.6602235, y: -0.25095424, z: -0.25573805, w: 0.6600947}
+      scale: {x: 1, y: 0.99999994, z: 1.0000001}
+    - name: RigLArm1Gizmo
+      parentName: Toon Bat(Clone)
+      position: {x: -0.35359806, y: 0.97335064, z: -0.21802741}
+      rotation: {x: 0.99210966, y: -0.12509613, z: -0.00633553, w: 0.0054073166}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RigRArm1Gizmo
+      parentName: Toon Bat(Clone)
+      position: {x: 0.35359806, y: 0.97335064, z: -0.21802732}
+      rotation: {x: -0.0063357432, y: 0.005407398, z: 0.99210966, w: -0.1250961}
+      scale: {x: 0.99999994, y: 1, z: 1}
+    - name: RigRArm2Gizmo
+      parentName: Toon Bat(Clone)
+      position: {x: 0.8077168, y: 1.0897548, z: -0.21276769}
+      rotation: {x: -0.25573826, y: 0.66009474, z: 0.66022336, w: -0.25095415}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: RigHeadGizmo
+      parentName: Toon Bat(Clone)
+      position: {x: -0.000000009530202, y: 0.79872155, z: -0.2180273}
+      rotation: {x: 0.50000006, y: -0.50000006, z: -0.49999997, w: 0.49999997}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RigJawBottomGizmo
+      parentName: Toon Bat(Clone)
+      position: {x: -0.000000008911742, y: 0.63057315, z: -0.20387858}
+      rotation: {x: -0.7056195, y: -0.045837335, z: 0.7056196, w: 0.045837477}
+      scale: {x: 0.99999994, y: 0.99999994, z: 1}
+    - name: RigJawUpGizmo
+      parentName: Toon Bat(Clone)
+      position: {x: -0.00000000795502, y: 0.9903359, z: -0.18199134}
+      rotation: {x: -0.707096, y: -0.003903827, z: 0.70709604, w: 0.0039039648}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RigHead
+      parentName: Toon Bat(Clone)
+      position: {x: -0.000000009530202, y: 0.79872155, z: -0.2180273}
+      rotation: {x: 0.50000006, y: -0.50000006, z: -0.49999997, w: 0.49999997}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RigJawUp
+      parentName: RigHead
+      position: {x: -0.19161437, y: 0.036035977, z: -0.0000000070164536}
+      rotation: {x: -4.7076563e-14, y: -0.00000013843679, z: -0.71099997, w: 0.70319206}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RigJawBottom
+      parentName: RigHead
+      position: {x: 0.16814834, y: 0.014148674, z: -0.0000000027548595}
+      rotation: {x: -4.2392972e-14, y: -0.00000014631406, z: -0.751457, w: 0.65978205}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RigRArm1
+      parentName: RigHead
+      position: {x: -0.17462914, y: -0.000000057220458, z: -0.35359806}
+      rotation: {x: -0.68140244, y: -0.16020793, z: -0.1605514, w: 0.6958789}
+      scale: {x: 0.99999994, y: 1, z: 1}
+    - name: RigRArm2
+      parentName: RigRArm1
+      position: {x: -0.46882987, y: -0.000000076293944, z: 0.000000057220458}
+      rotation: {x: 0.6817182, y: 0.1683192, z: 0.169182, w: 0.69159704}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: RigLArm1
+      parentName: RigHead
+      position: {x: -0.17462914, y: -0.000000038146972, z: 0.35359806}
+      rotation: {x: 0.55273134, y: 0.43304268, z: -0.43397087, w: 0.56447446}
+      scale: {x: 1, y: 1, z: 1}
+    - name: RigLArm2
+      parentName: RigLArm1
+      position: {x: -0.4688299, y: 0.000000076293944, z: 0.000000038146972}
+      rotation: {x: -0.68171823, y: -0.16831894, z: 0.16918193, w: 0.69159704}
+      scale: {x: 1, y: 0.99999994, z: 1.0000001}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -104,13 +190,13 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
