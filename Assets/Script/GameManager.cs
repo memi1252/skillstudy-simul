@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] skillUI;
 
+    public bool[] playerLife = new bool[3];
+
 
     private void Awake()
     {
@@ -44,7 +46,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && !players[0].root)
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !players[0].root && playerLife[0])
         {
             messageUI.Add("전사를 선택하였습니다.", Color.green);
             players[0].root = true;
@@ -53,7 +55,7 @@ public class GameManager : MonoBehaviour
             skillUI[0].SetActive(true);
             skillUI[1].SetActive(false);
             skillUI[2].SetActive(false);
-        }else if (Input.GetKeyDown(KeyCode.Alpha2) && !players[1].root)
+        }else if (Input.GetKeyDown(KeyCode.Alpha2) && !players[1].root && playerLife[1])
         {
             messageUI.Add("궁수를 선택하였습니다.", Color.green);
             players[0].root = false;
@@ -63,7 +65,7 @@ public class GameManager : MonoBehaviour
             skillUI[1].SetActive(true);
             skillUI[2].SetActive(false);
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3) && !players[2].root)
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && !players[2].root && playerLife[2])
         {
             messageUI.Add("마법사를 선택하였습니다.", Color.green);
             players[0].root = false;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -23,6 +24,10 @@ public class Enemy : MonoBehaviour
     public Transform target;
     private Rigidbody rb;
     private Animator animator;
+    public bool hit;
+    public Image hpImage;
+    private float hitCurrentTime;
+    public bool isDie = false;
     //public bool isAttack;
 
     private void Awake()
@@ -34,31 +39,60 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         hp = maxHp;
+        currentAttackSpeed = attackSpeed;
     }
 
     private void Update()
     {
-        if (isStun)
+        
+        
+
+        if (!isDie)
         {
-            //2초간 움직일수없고, 공격불가
-            currentStunTime += Time.deltaTime;
-            if(currentStunTime > 2)
+            if (hit)
             {
-                currentStunTime = 0;
-                isStun = false;
+                hitCurrentTime += Time.deltaTime;
+                if (hitCurrentTime > 1)
+                {
+                    hitCurrentTime = 0;
+                    hit = false;
+                }
+            }
+            hpImage.fillAmount = hp / maxHp;
+            if (isStun)
+            {
+                //2초간 움직일수없고, 공격불가
+                currentStunTime += Time.deltaTime;
+                if (currentStunTime > 2)
+                {
+                    currentStunTime = 0;
+                    isStun = false;
+                }
+            }
+
+            if (hp <= 0)
+            {
+                isDie = true;
+                hpImage.fillAmount = 0;
+                currentAttackSpeed = -9999999;
+                animator.StopPlayback();
+                animator.SetTrigger("Die");
+                StartCoroutine(Die());
             }
         }
-        if(hp <= 0)
-        {
-            var item = Instantiate(itmes[Random.Range(0, itmes.Length)]);
-            item.transform.position = new Vector3(transform.position.x, item.transform.position.y, transform.position.z);
-            Destroy(gameObject);
-        }
+    }
 
+    IEnumerator Die()
+    {
+        yield return new WaitForSeconds(3);
+        var item = Instantiate(itmes[Random.Range(0, itmes.Length)]);
+        item.transform.position = new Vector3(transform.position.x, item.transform.position.y, transform.position.z);
+        Destroy(gameObject);
     }
 
     private void FixedUpdate()
     {
+        if (isDie) return;
         if(rb.velocity == Vector3.zero)
         {
             animator.SetBool("Move", false);
@@ -79,11 +113,14 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                transform.LookAt(target);
-                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-                Vector3 dir = transform.forward;
-                dir.Normalize();
-                rb.velocity = dir * speed;
+                if (!hit)
+                {
+                    transform.LookAt(target);
+                    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+                    Vector3 dir = transform.forward;
+                    dir.Normalize();
+                    rb.velocity = dir * speed;
+                }
             }
                
         }
@@ -93,6 +130,7 @@ public class Enemy : MonoBehaviour
     {
         if(target != null)
         {
+            if (isDie) return;
             currentAttackSpeed += Time.deltaTime;
             float dis = Vector3.Distance(transform.position, target.position);
             if (dis > attackRange)
@@ -124,9 +162,18 @@ public class Enemy : MonoBehaviour
 
     public Vector2 TakeDamage(float damage)
     {
+        if (isDie) return Vector2.zero;
         hp -= damage;
         animator.SetTrigger("Hit");
-        if(speedDown)
+        if (!hit)
+        {
+            hit = true;
+        }
+        else
+        {
+            hitCurrentTime = 0;
+        }
+        if (speedDown)
         {
             if (prozenParticle != null)
             {

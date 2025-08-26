@@ -54,9 +54,13 @@ public class SkillManager : MonoBehaviour
     public Button[] nearSkillUpgradeButton;
     public Button[] farSkillUpgradeButton;
     public Button[] magicSkillUpgradeButton;
+    public GameObject[] isSkillLevelUpImage;
 
     public int[] passiveSkillLevel = new int[5];
     public int passiveSkillPoint = 0;
+
+    public Text passiveSkillText;
+    public GameObject passiveSKillUpImage;
 
 
     private void Awake()
@@ -64,7 +68,6 @@ public class SkillManager : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -86,6 +89,10 @@ public class SkillManager : MonoBehaviour
             }
         }
 
+        passiveSkillText.text = $"공용패시브 스킬 : 크리티컬확률증가 Lv.{passiveSkillLevel[0]}, 공격속도증가 Lv.{passiveSkillLevel[1]}, 체력증가 Lv.{passiveSkillLevel[2]}," +
+            $" 이동속도증가 Lv.{passiveSkillLevel[3]}, 공격력증가 Lv.{passiveSkillLevel[4]}";
+
+
         if (nearSkillUpgrade > 0)
         {
             for (int i = 0; i < nearSkillLevel.Length; i++)
@@ -99,14 +106,16 @@ public class SkillManager : MonoBehaviour
                     nearSkillUpgradeButton[i].gameObject.SetActive(false);
                 }
             }
+            isSkillLevelUpImage[0].SetActive(true);
 
         }
         else
         {
-            for(int i = 0;i < nearSkillUpgradeButton.Length; i++)
+            for (int i = 0; i < nearSkillUpgradeButton.Length; i++)
             {
                 nearSkillUpgradeButton[i].gameObject.SetActive(false);
             }
+            isSkillLevelUpImage[0].SetActive(false);
         }
 
         if (farSkillUpgrade > 0)
@@ -122,6 +131,7 @@ public class SkillManager : MonoBehaviour
                     farSkillUpgradeButton[i].gameObject.SetActive(false);
                 }
             }
+            isSkillLevelUpImage[1].SetActive(true);
 
         }
         else
@@ -130,6 +140,7 @@ public class SkillManager : MonoBehaviour
             {
                 farSkillUpgradeButton[i].gameObject.SetActive(false);
             }
+            isSkillLevelUpImage[1].SetActive(false);
         }
 
         if (magicSkillUpgrade > 0)
@@ -145,6 +156,7 @@ public class SkillManager : MonoBehaviour
                     magicSkillUpgradeButton[i].gameObject.SetActive(false);
                 }
             }
+            isSkillLevelUpImage[2].SetActive(true);
 
         }
         else
@@ -153,6 +165,7 @@ public class SkillManager : MonoBehaviour
             {
                 magicSkillUpgradeButton[i].gameObject.SetActive(false);
             }
+            isSkillLevelUpImage[2].SetActive(false);
         }
 
 
@@ -345,7 +358,14 @@ public class SkillManager : MonoBehaviour
                     }
                 }
             }
+            passiveSKillUpImage.SetActive(true);
         }
+        else
+        {
+            passiveSKillUpImage.SetActive(false);
+        }
+
+        
         
     }
 
