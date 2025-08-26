@@ -38,6 +38,8 @@ public class Enemy : MonoBehaviour
     public Image hpImage;
     private float hitCurrentTime;
     public bool isDie = false;
+    public GameObject bulletPrefab;
+    public Transform firePos;
     //public bool isAttack;
 
     private void Awake()
@@ -171,6 +173,10 @@ public class Enemy : MonoBehaviour
                         }
                         break;
                     case EnemyStats.far:
+                        var bullet = Instantiate(bulletPrefab);
+                        bullet.transform.position = firePos.position;
+                        bullet.transform.eulerAngles = firePos.eulerAngles;
+                        bullet.GetComponent<Bullet>().Set(, attackDamage);
                         break;
                 }
                 
