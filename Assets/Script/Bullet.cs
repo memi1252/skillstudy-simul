@@ -63,25 +63,28 @@ public class Bullet : MonoBehaviour
                     {
                         player.ex += exs.x * player.attackDamage / player.maxHp;
                     }
+                    Destroy(gameObject);
                 }
             }
         }
         if(enemy != null)
         {
+            if (!penetration)
+            {
+                Destroy(gameObject);
+            }
             if (collision.gameObject.CompareTag("Player"))
             {
                 Player player;
                 if (collision.gameObject.TryGetComponent<Player>(out player))
                 {
                     player.TakeDamage(damage);
+                    Destroy(gameObject);
                 }
             }
         }
         
 
-        if (!penetration)
-        {
-            Destroy(gameObject);
-        }
+        
     }
 }

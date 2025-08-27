@@ -1892,6 +1892,7 @@ public class Player : MonoBehaviour
     public  void TakeDamage(float damage)
     {
         hp -= damage;
+        if (isDie) return;
         anim.SetTrigger("Hit");
         if (hp <= 0)
         {
@@ -1899,6 +1900,18 @@ public class Player : MonoBehaviour
             anim.StopPlayback();
             anim.SetTrigger("Die");
             StartCoroutine(Die());
+            switch (stats)
+            {
+                case playerStats.near:
+                    GM.playerLife[0] = false;
+                    break;
+                case playerStats.far:
+                    GM.playerLife[1] = false;
+                    break;
+                case playerStats.magic:
+                    GM.playerLife[2] = false;
+                    break;
+            }
             foreach (var playerObj in GameObject.FindGameObjectsWithTag("Player"))
             {
                 Player player;
@@ -1906,12 +1919,11 @@ public class Player : MonoBehaviour
                 {
                     if (this != player)
                     {
-                        if (player.hp <= 0)
+                        if (player.hp >= 0)
                         {
                             switch (player.stats)
                             {
                                 case playerStats.near:
-                                    GM.playerLife[0] = false;
                                     GM.players[0].root = true;
                                     GM.players[1].root = false;
                                     GM.players[2].root = false;
@@ -1920,7 +1932,6 @@ public class Player : MonoBehaviour
                                     GM.skillUI[2].SetActive(false);
                                     break;
                                 case playerStats.far:
-                                    GM.playerLife[1] = false;
                                     GM.players[0].root = false;
                                     GM.players[1].root = true;
                                     GM.players[2].root = false;
@@ -1929,7 +1940,6 @@ public class Player : MonoBehaviour
                                     GM.skillUI[2].SetActive(false);
                                     break;
                                 case playerStats.magic:
-                                    GM.playerLife[2] = false;
                                     GM.players[0].root = false;
                                     GM.players[1].root = false;
                                     GM.players[2].root = true;

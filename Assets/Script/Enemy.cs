@@ -176,7 +176,7 @@ public class Enemy : MonoBehaviour
                         var bullet = Instantiate(bulletPrefab);
                         bullet.transform.position = firePos.position;
                         bullet.transform.eulerAngles = firePos.eulerAngles;
-                        bullet.GetComponent<Bullet>().Set(, attackDamage);
+                        bullet.GetComponent<Bullet>().Set(this, attackDamage);
                         break;
                 }
                 

@@ -18,8 +18,8 @@ TagManager:
   - minimap
   - item
   - Enemy
-  - 
-  - 
+  - EnemyBullet
+  - PlayerBullet
   - 
   - 
   - 
