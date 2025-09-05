@@ -25,10 +25,10 @@ public class Item : MonoBehaviour
         switch (item)
         {
             case items.heal:
-                text.text = "Ã¼·Â È¸º¹";
+                text.text = "ì±„ë ¥ íšŒë³µì•„ì´í…œ";
                 break;
             case items.mp:
-                text.text = "¸¶³ª È¸º¹";
+                text.text = "ë§ˆë‚˜ íšŒë³µ ì•„ì´í…œ";
                 break;
         }
     }
@@ -44,11 +44,12 @@ public class Item : MonoBehaviour
                 {
                     if (player.inventoryCount >= player.maxInventoryCount)
                     {
-                        GameManager.Instance.messageUI.Add("¾ÆÀÌÅÛÀ» ¸ÔÀ» °ø°£ÀÌ ºÎÁ·ÇÕ´Ï´Ù", Color.red, true);
+                        GameManager.Instance.messageUI.Add("ì¸ë²¤í† ë¦¬ì— ìë¦¬ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.", Color.red, true);
                     }
                     else
                     {
                         ItemGet(player);
+                        Destroy(gameObject);
                     }
                 }
             }
@@ -62,32 +63,29 @@ public class Item : MonoBehaviour
         switch (item)
         {
             case items.heal:
-                GameManager.Instance.messageUI.Add("Ã¼·ÂÈ¸º¹¾ÆÀÌÅÛÀ» È¹µæÇÏ¿´½À´Ï´Ù.", Color.green, true);
-                player.inventoryCount++;
-                InventoryGet(player, 0, true);
-                Destroy(gameObject);
+                GameManager.Instance.messageUI.Add("ì²´ë ¥íšŒë³µ ì•„ì´í…œ íšë“", Color.green, true);
                 break;
             case items.mp:
-                GameManager.Instance.messageUI.Add("¸¶³ªÈ¸º¹¾ÆÀÌÅÛÀ» È¹µæÇÏ¿´½À´Ï´Ù.", Color.green, true);
-                player.inventoryCount++;
-                InventoryGet(player, 1, true);
-                Destroy(gameObject);
+                GameManager.Instance.messageUI.Add("ë§ˆë‚˜íšŒë³µ ì•„ì´í…œ íšë“", Color.green, true);
                 break;
         }
+        player.inventoryCount++;
+        InventoryGet(player, item, true);
+        
     }
 
-    private void InventoryGet(Player player, int id, bool stack)
+    private void InventoryGet(Player player, items item, bool stack)
     {
         switch (player.stats)
         {
             case playerStats.near:
-                GameManager.Instance.GetItem1(id, 1, stack);
+                GameManager.Instance.GetItem1(item, 1, stack);
                 break;
             case playerStats.far:
-                GameManager.Instance.GetItem2(id, 1, stack);
+                GameManager.Instance.GetItem2(item, 1, stack);
                 break;
             case playerStats.magic:
-                GameManager.Instance.GetItem3(id, 1, stack);
+                GameManager.Instance.GetItem3(item, 1, stack);
                 break;
         }
     }

@@ -89,6 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: 1
+  level: 2
   hp: 0
   maxHp: 500
   giveEx: 400

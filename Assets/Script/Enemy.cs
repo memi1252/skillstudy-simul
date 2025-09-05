@@ -16,6 +16,7 @@ public enum EnemyStats
 public class Enemy : MonoBehaviour
 {
     public EnemyStats stats;
+    public int level = 1;
     public float hp;
     public float maxHp;
     public int giveEx;
@@ -54,11 +55,28 @@ public class Enemy : MonoBehaviour
         currentAttackSpeed = attackSpeed;
     }
 
+    private float targetUpdateTimer = 1f;
     private void Update()
     {
-        
-        
-
+        targetUpdateTimer += Time.deltaTime;
+        if (targetUpdateTimer >= 1)
+        {
+            float maxdis = Mathf.Infinity;
+     
+            foreach (var player in FindObjectsOfType<Player>())
+            {
+                if (player.root)
+                {
+                    target = player.gameObject.transform;
+                }
+                // float dis = Vector3.Distance(transform.position, player.transform.position);
+                // if (dis < maxdis)
+                // {
+                //     maxdis = dis;
+                //     target = player.transform;
+                // }
+            }    
+        }
         if (!isDie)
         {
             if (hit)
@@ -73,7 +91,7 @@ public class Enemy : MonoBehaviour
             hpImage.fillAmount = hp / maxHp;
             if (isStun)
             {
-                //2ÃÊ°£ ¿òÁ÷ÀÏ¼ö¾ø°í, °ø°ÝºÒ°¡
+                //2ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ÝºÒ°ï¿½
                 currentStunTime += Time.deltaTime;
                 if (currentStunTime > 2)
                 {
@@ -89,10 +107,23 @@ public class Enemy : MonoBehaviour
                 currentAttackSpeed = -9999999;
                 animator.StopPlayback();
                 animator.SetTrigger("Die");
+                GameManager.Instance.score += Random.Range(100, 301);
+                if (GameManager.Instance.stage == 1)
+                {
+                    if (level == 1)
+                    {
+                        GameManager.Instance.Stage1Level1EnemyCount++;
+                    }else if (level == 2)
+                    {
+                        GameManager.Instance.Stage1Level2EnemyCount++;
+                    }
+                }
                 StartCoroutine(Die());
             }
         }
     }
+
+
 
     IEnumerator Die()
     {
@@ -127,9 +158,17 @@ public class Enemy : MonoBehaviour
             {
                 if (!hit)
                 {
-                    transform.LookAt(target);
-                    transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+                    transform.LookAt(target, Vector3.up);
                     Vector3 dir = transform.forward;
+                    if (rb.velocity.y > 0)
+                    {
+                        dir.y = -rb.velocity.y;
+                    }
+                    else
+                    {
+                        dir.y = rb.velocity.y;
+                    }
+                    
                     dir.Normalize();
                     rb.velocity = dir * speed;
 
@@ -173,9 +212,10 @@ public class Enemy : MonoBehaviour
                         }
                         break;
                     case EnemyStats.far:
+                        transform.LookAt(target, Vector3.up);
                         var bullet = Instantiate(bulletPrefab);
                         bullet.transform.position = firePos.position;
-                        bullet.transform.eulerAngles = firePos.eulerAngles;
+                        bullet.transform.eulerAngles = new Vector3(0, firePos.eulerAngles.y, 0);
                         bullet.GetComponent<Bullet>().Set(this, attackDamage);
                         break;
                 }

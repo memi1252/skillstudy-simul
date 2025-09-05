@@ -89,8 +89,8 @@ public class SkillManager : MonoBehaviour
             }
         }
 
-        passiveSkillText.text = $"°ø¿ëÆÐ½Ãºê ½ºÅ³ : Å©¸®Æ¼ÄÃÈ®·üÁõ°¡ Lv.{passiveSkillLevel[0]}, °ø°Ý¼ÓµµÁõ°¡ Lv.{passiveSkillLevel[1]}, Ã¼·ÂÁõ°¡ Lv.{passiveSkillLevel[2]}," +
-            $" ÀÌµ¿¼ÓµµÁõ°¡ Lv.{passiveSkillLevel[3]}, °ø°Ý·ÂÁõ°¡ Lv.{passiveSkillLevel[4]}";
+        passiveSkillText.text = $"ê³µìš©íŒ¨ì‹œë¸Œ ìŠ¤í‚¬ : í¬ë¦¬í‹°ì»¬í™•ë¥ ì¦ê°€ Lv.{passiveSkillLevel[0]},ê³µê²©ì†ë„ì¦ê°€ Lv.{passiveSkillLevel[1]},ì²´ë ¥ì¦ê°€ Lv.{passiveSkillLevel[2]}," +
+            $"ì´ë™ì†ë„ì¦ê°€ Lv.{passiveSkillLevel[3]},ê³µê²©ë ¥ì¦ê°€ Lv.{passiveSkillLevel[4]}";
 
 
         if (nearSkillUpgrade > 0)

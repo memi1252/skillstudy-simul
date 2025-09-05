@@ -30,7 +30,7 @@ public class CameraMove : MonoBehaviour
             }
         }
         
-        if (target != null)
+        if (target != null && GameManager.Instance.cameraMove)
         {
             minimapCamera.transform.position = new Vector3(target.position.x, target.transform.position.y+10, target.transform.position.z);
             mouseX += Input.GetAxis("Mouse X") * rotSpeed;

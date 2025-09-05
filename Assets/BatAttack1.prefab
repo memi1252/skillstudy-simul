@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2710334944969225303}
   - component: {fileID: 1857115002827080766}
-  m_Layer: 7
+  m_Layer: 12
   m_Name: FX-Soundwave-Green (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4847987516800055737}
   - component: {fileID: 1990872521338274237}
-  m_Layer: 7
+  m_Layer: 12
   m_Name: FX-Soundwave-Green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 5773904594637702191}
   - component: {fileID: 132514887226773927}
   - component: {fileID: 2656663669105435648}
-  m_Layer: 7
+  m_Layer: 12
   m_Name: BatAttack1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,9 +249,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!114 &2656663669105435648
 MonoBehaviour:
@@ -281,7 +281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2350556539642056383}
   - component: {fileID: 2661722764370642308}
-  m_Layer: 7
+  m_Layer: 12
   m_Name: FX-Soundwave-Green (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

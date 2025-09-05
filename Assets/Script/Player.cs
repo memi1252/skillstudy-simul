@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     public playerStats stats;
     public bool root;
     public int level;
+    public int levelUpCount;
     public float ex;
     public float maxEx;
     public float hp;
@@ -151,7 +152,7 @@ public class Player : MonoBehaviour
         {
             hpSlider.color = Color.red;
             hpSlider.fillAmount = 1;
-            hpText.text = "»ç¸Á";
+            hpText.text = "ì‚¬ë§";
             hpText.color = Color.red;
             exSlider.fillAmount = 0;
             mpSlider.fillAmount = 0;
@@ -198,21 +199,21 @@ public class Player : MonoBehaviour
                     maxHp += 20;
                     hp += maxHp/4;
                     attackDamage += 10;
-                    if(level /2  == 0)
+                    if(level % 2  == 0)
                         SkillManager.instance.nearSkillUpgrade++;
                     break;
                 case playerStats.far:
                     maxHp += 15;
                     hp += maxHp / 4;
                     attackDamage += 8;
-                    if (level / 2 == 0)
+                    if (level % 2 == 0)
                         SkillManager.instance.farSkillUpgrade++;
                     break;
                 case playerStats.magic:
                     maxHp += 10;
                     hp += maxHp / 4;
                     attackDamage += 10;
-                    if (level / 2 == 0)
+                    if (level % 2 == 0)
                         SkillManager.instance.magicSkillUpgrade++;
                     break;
             }
@@ -256,7 +257,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.messageUI.Add("¸¶³ª ºÎÁ·");
+                GameManager.Instance.messageUI.Add("ë§ˆë‚˜ ë¶€ì¡±");
                 return;
             }
             if (SM.nearSkillLevel[0] == 0) return;
@@ -308,7 +309,7 @@ public class Player : MonoBehaviour
                     }
                 }
             }
-            GameManager.Instance.messageUI.Add("´ÜÀÏ°ø°İ");
+            GameManager.Instance.messageUI.Add("ë‹¨ì¼ ê³µê²©");
         }
     }
     public void NearSkill2()
@@ -329,7 +330,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.messageUI.Add("¸¶³ª ºÎÁ·");
+                GameManager.Instance.messageUI.Add("ë§ˆë‚˜ ë¶€ì¡±");
                 return;
             }
             if (SM.nearSkillLevel[1] == 0) return;
@@ -488,7 +489,7 @@ public class Player : MonoBehaviour
                     }
                 }
             }
-            GameManager.Instance.messageUI.Add("¸ÖÆ¼°ø°İ");
+            GameManager.Instance.messageUI.Add("ë©€í‹° ê³µê²©");
         }
     }
     public void NearSkill3()
@@ -509,7 +510,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.messageUI.Add("¸¶³ª ºÎÁ·");
+                GameManager.Instance.messageUI.Add("ë§ˆë‚˜ ë¶€ì¡±");
                 return;
             }
             if (SM.nearSkillLevel[2] == 0) return;
@@ -605,7 +606,7 @@ public class Player : MonoBehaviour
                     }
                 }
             }
-            GameManager.Instance.messageUI.Add("°üÅë°ø°İ");
+            GameManager.Instance.messageUI.Add("ê´€í†µ ê³µê²©");
         }
     }
     public void NearSkill4()
@@ -626,7 +627,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.messageUI.Add("¸¶³ª ºÎÁ·");
+                GameManager.Instance.messageUI.Add("ë§ˆë‚˜ ë¶€ì¡±");
                 return;
             }
             if (SM.nearSkillLevel[3] == 0) return;
@@ -743,7 +744,7 @@ public class Player : MonoBehaviour
                     }
                 }
             }
-            GameManager.Instance.messageUI.Add("°üÅë°ø°İ");
+            GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         }
     }
 
@@ -785,7 +786,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.messageUI.Add("¸¶³ª ºÎÁ·");
+                GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                 return;
             }
             if (SM.farSkillLevel[0] == 0) return;
@@ -809,7 +810,7 @@ public class Player : MonoBehaviour
                     StartCoroutine(farSKill1(5, 1.5f));
                     break;
             }
-            GameManager.Instance.messageUI.Add("¿¬¼Ó°ø°İ");
+            GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½");
         }
     }
     public void FarSkill2()
@@ -830,7 +831,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.messageUI.Add("¸¶³ª ºÎÁ·");
+                GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                 return;
             }
             if (SM.farSkillLevel[1] == 0) return;
@@ -921,7 +922,7 @@ public class Player : MonoBehaviour
             {
                 Attack2();
             }
-            GameManager.Instance.messageUI.Add("¸ÖÆ¼°ø°İ");
+            GameManager.Instance.messageUI.Add("ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½");
         }
     }
     public void FarSkill3()
@@ -942,7 +943,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.messageUI.Add("¸¶³ª ºÎÁ·");
+                GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                 return;
             }
             if (SM.farSkillLevel[2] == 0) return;
@@ -966,7 +967,7 @@ public class Player : MonoBehaviour
                     ShootFan(7, 1.2f, 8);
                     break;
             }
-            GameManager.Instance.messageUI.Add("¹æÇâ°üÅë°ø°İ");
+            GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         }
     }
     public void FarSkill4()
@@ -987,7 +988,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.messageUI.Add("¸¶³ª ºÎÁ·");
+                GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                 return;
             }
             if (SM.farSkillLevel[3] == 0) return;
@@ -1036,7 +1037,7 @@ public class Player : MonoBehaviour
                         break;
                 }
             }
-            GameManager.Instance.messageUI.Add("±¤¿ª°ø°İ");
+            GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         }
     }
 
@@ -1078,7 +1079,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.messageUI.Add("¸¶³ª ºÎÁ·");
+                GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                 return;
             }
             if (SM.magicSkillLevel[0] == 0) return;
@@ -1127,7 +1128,7 @@ public class Player : MonoBehaviour
                 }
             }
 
-            GameManager.Instance.messageUI.Add("¿¬¼Ó°ø°İ");
+            GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½");
         }
     }
     public void MagicSkill2()
@@ -1148,7 +1149,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.messageUI.Add("¸¶³ª ºÎÁ·");
+                GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                 return;
             }
             if (SM.magicSkillLevel[1] == 0) return;
@@ -1179,7 +1180,7 @@ public class Player : MonoBehaviour
             {
                 Attack2();
             }
-            GameManager.Instance.messageUI.Add("Ã¼ÀÌ´×°ø°İ");
+            GameManager.Instance.messageUI.Add("Ã¼ï¿½Ì´×°ï¿½ï¿½ï¿½");
         }
     }
     public void MagicSkill3()
@@ -1200,7 +1201,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.messageUI.Add("¸¶³ª ºÎÁ·");
+                GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                 return;
             }
             if (SM.magicSkillLevel[2] == 0) return;
@@ -1224,7 +1225,7 @@ public class Player : MonoBehaviour
                     Heal(1.8f, true);
                     break;
             }
-            GameManager.Instance.messageUI.Add("È¸º¹");
+            GameManager.Instance.messageUI.Add("È¸ï¿½ï¿½");
         }
     }
     public void MagicSkill4()
@@ -1245,7 +1246,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                GameManager.Instance.messageUI.Add("¸¶³ª ºÎÁ·");
+                GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
                 return;
             }
             if (SM.magicSkillLevel[3] == 0) return;
@@ -1273,7 +1274,7 @@ public class Player : MonoBehaviour
                         break;
                 }
             }
-            GameManager.Instance.messageUI.Add("Æ÷ÀÌÁğ");
+            GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         }
     }
 
@@ -1399,7 +1400,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    //¿ø°Å¸® ¾ÆÃ³ ½ºÅ³
+    //ï¿½ï¿½ï¿½Å¸ï¿½ ï¿½ï¿½Ã³ ï¿½ï¿½Å³
     IEnumerator PerformArrowRain(int count, float radius, float time, bool move, bool not)
     {
         if (!move)
@@ -1717,7 +1718,7 @@ public class Player : MonoBehaviour
         {
             if (nearCollision.Length != 0)
             {
-                //ai¸ğµå
+                //aiï¿½ï¿½ï¿½
                 if (isDie) return;
                 float dis = Vector3.Distance(transform.position, En.transform.position);
                 if (dis <= enemyGamegiRange)
@@ -1780,7 +1781,7 @@ public class Player : MonoBehaviour
         bool[] rockSkills;
         bool[] useSkills;
         Action[] skills;
-        // stats¿¡ µû¶ó ÀûÀıÇÑ ¹è¿­À» ÇÒ´ç
+        // statsï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½Ò´ï¿½
         switch (stats)
         {
             case playerStats.near:
@@ -1799,10 +1800,10 @@ public class Player : MonoBehaviour
                 skills = new Action[] { MagicSkill1, MagicSkill2, MagicSkill3, MagicSkill4 };
                 break;
             default:
-                return; // À¯È¿ÇÏÁö ¾ÊÀº stats
+                return; // ï¿½ï¿½È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ stats
         }
 
-        // »ç¿ë °¡´ÉÇÑ ½ºÅ³ ÀÎµ¦½º¸¦ ÀúÀåÇÒ ¸®½ºÆ®
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
         List<int> usableSkillIndices = new List<int>();
 
         for (int i = 0; i < skills.Length; i++)
@@ -1814,7 +1815,7 @@ public class Player : MonoBehaviour
         }
 
 
-        // »ç¿ë °¡´ÉÇÑ ½ºÅ³ÀÇ °³¼ö¿¡ µû¶ó ·ÎÁ÷ ºĞ±â
+        // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ğ±ï¿½
         if (usableSkillIndices.Count == 0)
         {
             return;
@@ -1826,7 +1827,7 @@ public class Player : MonoBehaviour
         }
         else // usableSkillIndices.Count >= 2
         {
-            // ¸®½ºÆ®¿¡¼­ ¹«ÀÛÀ§·Î ÇÏ³ª ¼±ÅÃ
+            // ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½ï¿½ï¿½ï¿½
             int randomIndex = UnityEngine.Random.Range(0, usableSkillIndices.Count);
             int index = usableSkillIndices[randomIndex];
             skills[index]?.Invoke();

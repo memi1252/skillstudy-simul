@@ -19,7 +19,7 @@ public class billboard : MonoBehaviour
     {
         if(target != null)
         {
-            transform.rotation = Quaternion.LookRotation(target.forward, target.up);
+            transform.rotation = Quaternion.LookRotation(-target.forward, target.up);
         }
     }
 }

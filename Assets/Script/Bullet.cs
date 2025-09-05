@@ -73,7 +73,7 @@ public class Bullet : MonoBehaviour
             {
                 Destroy(gameObject);
             }
-            if (collision.gameObject.CompareTag("Player"))
+            if (collision.transform.root.gameObject.CompareTag("Player"))
             {
                 Player player;
                 if (collision.gameObject.TryGetComponent<Player>(out player))
