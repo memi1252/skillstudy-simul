@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
     private bool follow = false;
     public bool move = true;
     public bool isDie = false;
+    public bool poison = false;
 
     private SkillManager SM;
     private GameManager GM;
@@ -165,6 +166,12 @@ public class Player : MonoBehaviour
 
             mpSlider.fillAmount = mp / maxMp;
         }
+
+        if (poison)
+        {
+            StartCoroutine(poisonPLayer(7, 2));
+            poison = false;
+        }
             
        
         if(hp > maxHp)
@@ -199,21 +206,30 @@ public class Player : MonoBehaviour
                     maxHp += 20;
                     hp += maxHp/4;
                     attackDamage += 10;
-                    if(level % 2  == 0)
+                    GameManager.Instance.messageUI.Add("전사: 체력 +20, 공격력 +10", Color.green, true);
+                    if (level == 1)
+                        SkillManager.instance.nearSkillUpgrade++;
+                    if(level / 2  == 0)
                         SkillManager.instance.nearSkillUpgrade++;
                     break;
                 case playerStats.far:
                     maxHp += 15;
                     hp += maxHp / 4;
                     attackDamage += 8;
-                    if (level % 2 == 0)
+                    GameManager.Instance.messageUI.Add("아처: 체력 +15, 공격력 +8", Color.green, true);
+                    if (level == 1)
+                        SkillManager.instance.farSkillUpgrade++;
+                    if (level / 2 == 0)
                         SkillManager.instance.farSkillUpgrade++;
                     break;
                 case playerStats.magic:
                     maxHp += 10;
                     hp += maxHp / 4;
                     attackDamage += 10;
-                    if (level % 2 == 0)
+                    GameManager.Instance.messageUI.Add("마법사: 체력 +10, 공격력 +10", Color.green, true);
+                    if (level == 1)
+                        SkillManager.instance.magicSkillUpgrade++;
+                    if (level / 2 == 0)
                         SkillManager.instance.magicSkillUpgrade++;
                     break;
             }
@@ -1303,6 +1319,15 @@ public class Player : MonoBehaviour
         enemy.OrizinSpeed();
         
     }
+    IEnumerator poisonPLayer(float time, float damage)
+    {
+        for(int i =0; i < time; i++)
+        {
+            TakeDamage(damage);
+            yield return new WaitForSeconds(1);
+        }
+        
+    }
     public void Heal(float persent, bool give)
     {
         if (give)
@@ -1399,8 +1424,7 @@ public class Player : MonoBehaviour
             bullet.GetComponent<Bullet>().Set(this, attackDamage);
         }
     }
-
-    //���Ÿ� ��ó ��ų
+    
     IEnumerator PerformArrowRain(int count, float radius, float time, bool move, bool not)
     {
         if (!move)
@@ -1890,11 +1914,22 @@ public class Player : MonoBehaviour
         }
     }
 
+    IEnumerator HitEffect()
+    {
+        GameManager.Instance.hitUI.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        GameManager.Instance.hitUI.SetActive(false);
+    }
+
     public  void TakeDamage(float damage)
     {
         hp -= damage;
         if (isDie) return;
         anim.SetTrigger("Hit");
+        if (root)
+        {
+            StartCoroutine(HitEffect());
+        }
         if (hp <= 0)
         {
             isDie = true;

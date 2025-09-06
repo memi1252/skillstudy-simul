@@ -55,8 +55,9 @@ public class InventorySlot : MonoBehaviour
                     var inventoryValue = GameManager.Instance.inventory1[item];
                     inventoryValue.count--;
                     GameManager.Instance.inventory1[item] = inventoryValue;
+                    
                 }
-
+                GameManager.Instance.players[0].inventoryCount--;
                 count--;
                 if (count <= 0)
                 {
@@ -72,8 +73,9 @@ public class InventorySlot : MonoBehaviour
                     var inventoryValue = GameManager.Instance.inventory2[item];
                     inventoryValue.count--;
                     GameManager.Instance.inventory2[item] = inventoryValue;
+                    
                 }
-
+                GameManager.Instance.players[1].inventoryCount--;
                 count--;
                 if (count <= 0)
                 {
@@ -89,8 +91,9 @@ public class InventorySlot : MonoBehaviour
                     var inventoryValue = GameManager.Instance.inventory3[item];
                     inventoryValue.count--;
                     GameManager.Instance.inventory3[item] = inventoryValue;
+                    
                 }
-
+                GameManager.Instance.players[2].inventoryCount--;
                 count--;
                 if (count <= 0)
                 {

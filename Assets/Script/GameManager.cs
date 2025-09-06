@@ -45,12 +45,18 @@ public class GameManager : MonoBehaviour
     public int stage = 1;
     public int Stage1Level1EnemyCount;
     public int Stage1Level2EnemyCount;
+    public int Stage2Level2EnemyCount;
+    public int Stage2Level3EnemyCount;
+    public int Stage2DestoyObjectCount;
 
 
     public int score;
     public Text scoreText;
+    public float currentTime;
+    public Text currentTimeText;
     
     public InventoryUI inventoryUI;
+    public GameObject hitUI;
 
 
     private void Awake()
@@ -75,7 +81,8 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         scoreText.text = score.ToString();
-
+        currentTime += Time.deltaTime;
+        currentTimeText.text = $"{(int)(currentTime / 60):D2}:{(int)(currentTime % 60):D2}";
         if (Input.GetKeyDown(KeyCode.I))
         {
             if(inventoryUI.gameObject.activeSelf)

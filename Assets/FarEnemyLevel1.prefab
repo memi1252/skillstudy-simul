@@ -387,12 +387,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: 1
+  level: 1
   hp: 0
   maxHp: 150
   giveEx: 120
   speed: 4
   attackDamage: 4
-  attackRange: 4
+  attackRange: 6
   attackSpeed: 3
   itmes:
   - {fileID: 3770251434640732092, guid: e8122124a8d0244408395f141fc97795, type: 3}
@@ -407,6 +408,9 @@ MonoBehaviour:
   isDie: 0
   bulletPrefab: {fileID: 5041120720632718074, guid: 8d6f4fc64cfd1e74abe698caaf0d580a, type: 3}
   firePos: {fileID: 3805320765539814153}
+  boss1SkillMaxColTime: 0
+  boss2SkillMaxColTime: 0
+  skill1: 0
 --- !u!136 &6981034998945857421
 CapsuleCollider:
   m_ObjectHideFlags: 0

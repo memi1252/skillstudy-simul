@@ -95,7 +95,7 @@ MonoBehaviour:
   giveEx: 800
   speed: 4
   attackDamage: 4
-  attackRange: 6
+  attackRange: 10
   attackSpeed: 3
   itmes:
   - {fileID: 3770251434640732092, guid: e8122124a8d0244408395f141fc97795, type: 3}
@@ -110,6 +110,9 @@ MonoBehaviour:
   isDie: 0
   bulletPrefab: {fileID: 1858180022741011849, guid: 76d84ea7774912245b91874d505cf6b2, type: 3}
   firePos: {fileID: 5301854390771587157}
+  boss1SkillMaxColTime: 0
+  boss2SkillMaxColTime: 0
+  skill1: 0
 --- !u!136 &5991004317970809629
 CapsuleCollider:
   m_ObjectHideFlags: 0

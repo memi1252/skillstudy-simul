@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour
     public Enemy enemy;
     public bool penetration;
     public float maxDis;
+    public bool poizon;
 
     private void Start()
     {
@@ -79,6 +80,10 @@ public class Bullet : MonoBehaviour
                 if (collision.gameObject.TryGetComponent<Player>(out player))
                 {
                     player.TakeDamage(damage);
+                    if (poizon)
+                    {
+                        player.poison = true;
+                    }
                     Destroy(gameObject);
                 }
             }

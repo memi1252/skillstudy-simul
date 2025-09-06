@@ -12,7 +12,7 @@ public class InventoryUI : MonoBehaviour
     public GameObject inventorySlot;
     
   
-
+    private List<GameObject> showSlots = new List<GameObject>();
     private void Start()
     {
         //Hide
@@ -38,23 +38,34 @@ public class InventoryUI : MonoBehaviour
 
     private void UpdateUI()
     {
+        if (showSlots.Count > 0)
+        {
+            for (int i = showSlots.Count - 1; i >= 0; i--)
+            {
+                Destroy(showSlots[i]);
+            }
+            showSlots.Clear();
+        }
         foreach (var item in GameManager.Instance.inventory1)
         {
            var slot = Instantiate(inventorySlot, inventory1.transform.GetChild(1).transform, true);
            slot.GetComponent<InventorySlot>().Set(item.Key, item.Value.count);
            slot.GetComponent<InventorySlot>().index = 1;
+           showSlots.Add(slot);
         }
         foreach (var item in GameManager.Instance.inventory2)
         {
             var slot = Instantiate(inventorySlot, inventory2.transform.GetChild(1).transform, true);
             slot.GetComponent<InventorySlot>().Set(item.Key, item.Value.count);
             slot.GetComponent<InventorySlot>().index = 2;
+            showSlots.Add(slot);
         }
         foreach (var item in GameManager.Instance.inventory3)
         {
             var slot = Instantiate(inventorySlot, inventory3.transform.GetChild(1).transform, true);
             slot.GetComponent<InventorySlot>().Set(item.Key, item.Value.count);
             slot.GetComponent<InventorySlot>().index = 3;
+            showSlots.Add(slot);
         }
         
         Time.timeScale = 0;
