@@ -62,6 +62,31 @@ public class SkillManager : MonoBehaviour
     public Text passiveSkillText;
     public GameObject passiveSKillUpImage;
 
+    public bool spectacularBattle1;
+    public bool spectacularBattle2;
+    public bool spectacularBattle3;
+
+    public float[] orizinColTime1 = new float[25];
+    public float[] orizinColTime2 = new float[25];
+    public float[] orizinColTime3 = new float[25];
+
+    public float currentSpectacularBattle1Time;
+    public float currentSpectacularBattle2Time;
+    public float currentSpectacularBattle3Time;
+
+    public bool mentalFocus1;
+    public bool mentalFocus2;
+    public bool mentalFocus3;
+
+    public float[] orizinMp1 = new float[20];
+    public float[] orizinMp2 = new float[20];
+    public float[] orizinMp3 = new float[20];
+
+    public float currentMentalFocus1Time;
+    public float currentMentalFocus2Time;
+    public float currentMentalFocus3Time;
+
+
 
     private void Awake()
     {
@@ -86,6 +111,287 @@ public class SkillManager : MonoBehaviour
                 {
                     this.player = player;
                 }
+            }
+        }
+        if (spectacularBattle1)
+        {
+            currentSpectacularBattle1Time += Time.deltaTime;
+            if(currentSpectacularBattle1Time >= 10)
+            {
+                int index = 0;
+                for (int i = 0; i < nearSkill.Length; i++)
+                {
+                    for (int j = 0; j < nearSkill[i].colTime.Length; j++)
+                    {
+                        nearSkill[i].colTime[j] = orizinColTime1[index];
+                        index++;
+                    }
+                }
+                currentSpectacularBattle1Time = 0;
+                spectacularBattle1 = false;
+            }
+        }
+        if (spectacularBattle2)
+        {
+            currentSpectacularBattle2Time += Time.deltaTime;
+            if (currentSpectacularBattle2Time >= 10)
+            {
+                int index = 0;
+                for (int i = 0; i < farSkill.Length; i++)
+                {
+                    for (int j = 0; j < farSkill[i].colTime.Length; j++)
+                    {
+                        farSkill[i].colTime[j] = orizinColTime2[index];
+                        index++;
+                    }
+                }
+                currentSpectacularBattle2Time = 0;
+                spectacularBattle2 = false;
+            }
+        }
+        if (spectacularBattle3)
+        {
+            currentSpectacularBattle3Time += Time.deltaTime;
+            if (currentSpectacularBattle3Time >= 10)
+            {
+                int index = 0;
+                for (int i = 0; i < magicSkill.Length; i++)
+                {
+                    for (int j = 0; j < magicSkill[i].colTime.Length; j++)
+                    {
+                        magicSkill[i].colTime[j] = orizinColTime3[index];
+                        index++;
+                    }
+                }
+                currentSpectacularBattle3Time = 0;
+                spectacularBattle3 = false;
+            }
+        }
+
+        if (player.spectacularBattle)
+        {
+            player.spectacularBattle = false;
+            switch (player.stats)
+            {
+                case playerStats.near:
+                    if (!spectacularBattle1)
+                    {
+                        spectacularBattle1 = true;
+                        //아이템 사용됨
+                        int index = 0;
+                        for (int i = 0; i < nearSkill.Length; i++)
+                        {   
+                            for(int j =0; j < nearSkill[i].colTime.Length; j++)
+                            {
+                                float value = nearSkill[i].colTime[j];
+                                orizinColTime1[index] = value;
+                                index++;
+                            }
+                        }
+                        for (int i = 0; i < nearSkill.Length; i++)
+                        {
+                            for (int j = 0; j < nearSkill[i].colTime.Length; j++)
+                            {
+                                nearSkill[i].colTime[j] =1;
+                                
+                            }
+                        }
+                    }
+                    break;
+                case playerStats.far:
+                    if (!spectacularBattle2)
+                    {
+                        spectacularBattle2 = true;
+                        //아이템 사용됨
+                        int index = 0;
+                        for (int i = 0; i < farSkill.Length; i++)
+                        {
+                            for (int j = 0; j < farSkill[i].colTime.Length; j++)
+                            {
+                                float value = farSkill[i].colTime[j];
+                                orizinColTime2[index] = value;
+                                index++;
+                            }
+                        }
+                        for (int i = 0; i <farSkill.Length; i++)
+                        {
+                            for (int j = 0; j < farSkill[i].colTime.Length; j++)
+                            {
+                                farSkill[i].colTime[j] = 1;
+
+                            }
+                        }
+                    }
+                    break;
+                case playerStats.magic:
+                    if (!spectacularBattle3)
+                    {
+                        spectacularBattle3 = true;
+                        //아이템 사용됨
+                        int index = 0;
+                        for (int i = 0; i < magicSkill.Length; i++)
+                        {
+                            for (int j = 0; j < magicSkill[i].colTime.Length; j++)
+                            {
+                                float value = magicSkill[i].colTime[j];
+                                orizinColTime3[index] = value;
+                                index++;
+                            }
+                        }
+                        for (int i = 0; i < magicSkill.Length; i++)
+                        {
+                            for (int j = 0; j < magicSkill[i].colTime.Length; j++)
+                            {
+
+                                magicSkill[i].colTime[j] = 1;
+
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        if (player.mentalFocus)
+        {
+            player.mentalFocus = false;
+            switch (player.stats)
+            {
+                case playerStats.near:
+                    if (!mentalFocus1)
+                    {
+                        mentalFocus1 = true;
+                        //아이템 사용됨
+                        int index = 0;
+                        for (int i = 0; i < nearSkill.Length; i++)
+                        {
+                            for (int j = 0; j < nearSkill[i].mp.Length; j++)
+                            {
+                                float value = nearSkill[i].mp[j];
+                                orizinMp1[index] = value;
+                                index++;
+                            }
+                        }
+                        for (int i = 0; i < nearSkill.Length; i++)
+                        {
+                            for (int j = 0; j < nearSkill[i].mp.Length; j++)
+                            {
+                                float value = nearSkill[i].mp[j];
+                                nearSkill[i].mp[j] = (int)Mathf.Round(value * 0.5f);
+
+                            }
+                        }
+                    }
+                    break;
+                case playerStats.far:
+                    if (!mentalFocus2)
+                    {
+                        mentalFocus2 = true;
+                        //아이템 사용됨
+                        int index = 0;
+                        for (int i = 0; i < farSkill.Length; i++)
+                        {
+                            for (int j = 0; j < farSkill[i].mp.Length; j++)
+                            {
+                                float value = farSkill[i].mp[j];
+                                orizinMp2[index] = value;
+                                index++;
+                            }
+                        }
+                        for (int i = 0; i < farSkill.Length; i++)
+                        {
+                            for (int j = 0; j < farSkill[i].mp.Length; j++)
+                            {
+                                float value =farSkill[i].mp[j];
+                                farSkill[i].mp[j] = (int)Mathf.Round(value * 0.5f); ;
+
+                            }
+                        }
+                    }
+                    break;
+                case playerStats.magic:
+                    if (!mentalFocus3)
+                    {
+                        mentalFocus3 = true;
+                        //아이템 사용됨
+                        int index = 0;
+                        for (int i = 0; i < magicSkill.Length; i++)
+                        {
+                            for (int j = 0; j < magicSkill[i].mp.Length; j++)
+                            {
+                                float value = magicSkill[i].mp[j];
+                                orizinMp3[index] = value;
+                                index++;
+                            }
+                        }
+                        for (int i = 0; i < magicSkill.Length; i++)
+                        {
+                            for (int j = 0; j < magicSkill[i].mp.Length; j++)
+                            {
+                                float value = magicSkill[i].mp[j];
+                                magicSkill[i].mp[j] = (int)Mathf.Round(value * 0.5f); ;
+
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        if (mentalFocus1)
+        {
+            currentMentalFocus1Time += Time.deltaTime;
+            if(currentMentalFocus1Time >= 30)
+            {
+                int index = 0;
+                for (int i = 0; i < nearSkill.Length; i++)
+                {
+                    for (int j = 0; j < nearSkill[i].mp.Length; j++)
+                    {
+                        nearSkill[i].mp[j] = (int)orizinMp1[index];
+                        index++;
+                    }
+                }
+                currentMentalFocus1Time = 0;
+                mentalFocus1 = false;
+            }
+        }
+
+        if (mentalFocus2)
+        {
+            currentMentalFocus2Time += Time.deltaTime;
+            if (currentMentalFocus2Time >= 30)
+            {
+                int index = 0;
+                for (int i = 0; i < farSkill.Length; i++)
+                {
+                    for (int j = 0; j < farSkill[i].mp.Length; j++)
+                    {
+                        farSkill[i].mp[j] = (int)orizinMp2[index];
+                        index++;
+                    }
+                }
+                currentMentalFocus2Time = 0;
+                mentalFocus2 = false;
+            }
+        }
+
+        if (mentalFocus3)
+        {
+            currentMentalFocus3Time += Time.deltaTime;
+            if (currentMentalFocus3Time >= 30)
+            {
+                int index = 0;
+                for (int i = 0; i < magicSkill.Length; i++)
+                {
+                    for (int j = 0; j < magicSkill[i].mp.Length; j++)
+                    {
+                        magicSkill[i].mp[j] = (int)orizinMp3[index];
+                        index++;
+                    }
+                }
+                currentMentalFocus3Time = 0;
+                mentalFocus3 = false;
             }
         }
 

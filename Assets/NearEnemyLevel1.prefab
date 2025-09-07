@@ -184,6 +184,32 @@ MonoBehaviour:
   isDie: 0
   bulletPrefab: {fileID: 0}
   firePos: {fileID: 0}
+  boss1Skill1MaxColTime: 0
+  boss1Skill2MaxColTime: 0
+  skill1: 0
+  boss2Skill1MaxColTime: 0
+  boss2Skill2MaxColTime: 0
+  boss2Skill3MaxColTime: 0
+  boss2Skill4MaxColTime: 0
+  boss2Skill1: 0
+  boss2Skill2: 0
+  boss2Skill3: 0
+  boss2Skill4: 0
+  wavePrefab: {fileID: 0}
+  boss3: {fileID: 0}
+  boss3Skill1MaxColTime: 0
+  boss3Skill2MaxColTime: 0
+  boss3Skill3MaxColTime: 0
+  boss3Skill4MaxColTime: 0
+  boss3Skill5MaxColTime: 0
+  boss3Skill1: 0
+  boss3Skill2: 0
+  boss3Skill3: 0
+  boss3Skill4: 0
+  boss3Skill5: 0
+  dragonBreath: {fileID: 0}
+  enemys: []
+  stage: {fileID: 0}
 --- !u!136 &2238578250659562125
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -416,7 +442,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1432333347070285205
 Transform:
   m_ObjectHideFlags: 0

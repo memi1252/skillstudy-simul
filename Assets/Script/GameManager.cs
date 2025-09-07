@@ -9,6 +9,7 @@ public struct ItemData
 {
     public int count;
     public bool stackble;
+    public int max;
 }
 
 [Serializable]
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
     public MessageUI messageUI;
 
     public GameObject[] skillUI;
+    public dropItem[] dropItems;
 
     public bool[] playerLife = new bool[3];
     
@@ -57,6 +59,8 @@ public class GameManager : MonoBehaviour
     
     public InventoryUI inventoryUI;
     public GameObject hitUI;
+
+    public GameObject boss3Spawn;
 
 
     private void Awake()
@@ -146,6 +150,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void DropItem(Vector3 pos)
+    {
+        float randomValue = UnityEngine.Random.value;
+        float currentChance = 0;
+
+        foreach (var item in dropItems)
+        {
+            currentChance += item.perscent;
+            if (currentChance <= randomValue)
+            {
+                if(item.itemPrefab != null)
+                {
+                    var dropitem = Instantiate(item.itemPrefab);
+                    dropitem.transform.position = pos;
+                }
+                
+
+            }
+        }
+    }
+
     public void GetItem1(items item, int count, bool stack)
     {
         if (inventory1.ContainsKey(item))
@@ -161,6 +186,7 @@ public class GameManager : MonoBehaviour
                 ItemData data = new ItemData();
                 data.count = count;
                 data.stackble = stack;
+                data.max = max(item);
                 inventory1.Add(item,data);
             }
         }
@@ -169,6 +195,7 @@ public class GameManager : MonoBehaviour
             ItemData data = new ItemData();
             data.count = count;
             data.stackble = stack;
+            data.max = max(item);
             inventory1.Add(item,data);
         }
 
@@ -190,6 +217,7 @@ public class GameManager : MonoBehaviour
                 ItemData data = new ItemData();
                 data.count = count;
                 data.stackble = stack;
+                data.max = max(item);
                 inventory2.Add(item,data);
             }
         }
@@ -198,6 +226,7 @@ public class GameManager : MonoBehaviour
             ItemData data = new ItemData();
             data.count = count;
             data.stackble = stack;
+            data.max = max(item);
             inventory2.Add(item,data);
         }
 
@@ -218,6 +247,7 @@ public class GameManager : MonoBehaviour
                 ItemData data = new ItemData();
                 data.count = count;
                 data.stackble = stack;
+                data.max = max(item);
                 inventory3.Add(item,data);
             }
         }
@@ -226,9 +256,31 @@ public class GameManager : MonoBehaviour
             ItemData data = new ItemData();
             data.count = count;
             data.stackble = stack;
+            data.max = max(item);
             inventory3.Add(item,data);
         }
 
         OnValidate();
+    }
+
+    private int max(items item)
+    {
+        switch (item)
+        {
+            case items.heal1:
+            case items.heal2:
+            case items.heal3:
+            case items.mp1:
+            case items.mp2:
+            case items.mp3:
+                return 10;
+            case items.attack:
+            case items.lifeRestoration:
+                return 1;
+            case items.mentalFocus:
+                return 2;
+                    
+        }
+        return 0;
     }
 }

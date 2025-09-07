@@ -13,6 +13,13 @@ public enum EnemyStats
     boss3
 }
 
+[System.Serializable]
+public class dropItem
+{
+    public GameObject itemPrefab;
+    [Range(0, 1)] public float perscent;
+}
+
 public class Enemy : MonoBehaviour
 {
     public EnemyStats stats;
@@ -24,7 +31,6 @@ public class Enemy : MonoBehaviour
     public float attackDamage;
     public float attackRange;
     public float attackSpeed;
-    public GameObject[] itmes;
     public bool isStun;
     public float currentStunTime;
     public ParticleSystem hitParticle;
@@ -67,6 +73,7 @@ public class Enemy : MonoBehaviour
     public GameObject wavePrefab;
     private bool boss2Defence;
     private float boss2DefenceTime;
+    public GameObject boss3;
     [Header("boss3")] 
     public float boss3Skill1MaxColTime;
     private float boss3Skill1ColTime;
@@ -84,6 +91,7 @@ public class Enemy : MonoBehaviour
     public bool boss3Skill4;
     public bool boss3Skill5;
     private float boss3EnemySpawnColTime;
+    public GameObject dragonBreath;
     
     public GameObject[] enemys;
     public Stage stage;
@@ -106,115 +114,7 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         targetUpdateTimer += Time.deltaTime;
-        switch (stats)
-        {
-            case EnemyStats.boss1:
-                if (!skill1)
-                {
-                    boss1Skill1ColTime += Time.deltaTime;
-                }
-                else
-                {
-                    boss1Skill2ColTime += Time.deltaTime;
-                }
-                boss1EnemySpawnColTime += Time.deltaTime;
-                if (boss1EnemySpawnColTime >= 10)
-                {
-                    for (int i = 0; i < 2; i++)
-                    {
-                        Vector2 randomCircle = Random.insideUnitCircle * 7;
-                        Vector3 dropPosition = new Vector3(
-                            transform.position.x + randomCircle.x,
-                            transform.position.y,
-                            transform.position.z + randomCircle.y
-                        );
-                        int index = Random.Range(0, enemys.Length);
-                        Instantiate(enemys[index], dropPosition, Quaternion.identity);
-                    }
-                    boss1EnemySpawnColTime = 0;
-                }
-                break;
-            case EnemyStats.boss2:
-                if (boss2Defence)
-                {
-                    boss2DefenceTime += Time.deltaTime;
-                    if (boss2DefenceTime >= 10)
-                    {
-                        boss2Defence = false;
-                        animator.SetBool("Defend", boss2Defence);
-                        boss2DefenceTime = 0;
-                    }
-                    else
-                    {
-                        hp += 2f * Time.deltaTime;
-                    }
-                }
-                
-                if (!boss2Skill1)
-                {
-                    boss2Skill1ColTime += Time.deltaTime;
-                }else if (!boss2Skill2)
-                {
-                    boss2Skill2ColTime += Time.deltaTime;
-                }else if (!boss2Skill3)
-                {
-                    boss2Skill3ColTime += Time.deltaTime;
-                }else if(!boss2Skill4)
-                {
-                    boss2Skill4ColTime += Time.deltaTime;
-                }
-                boss2EnemySpawnColTime += Time.deltaTime;
-                if (boss2EnemySpawnColTime >= 20)
-                {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        Vector2 randomCircle = Random.insideUnitCircle * 7;
-                        Vector3 dropPosition = new Vector3(
-                            transform.position.x + randomCircle.x,
-                            transform.position.y,
-                            transform.position.z + randomCircle.y
-                        );
-                        int index = Random.Range(0, enemys.Length);
-                        Instantiate(enemys[index], dropPosition, Quaternion.identity);
-                    }
-                    boss2EnemySpawnColTime = 0;
-                }
-                break;
-            case EnemyStats.boss3:
-                if (!boss3Skill1)
-                {
-                    boss3Skill1ColTime += Time.deltaTime;
-                }else if (!boss3Skill2)
-                {
-                    boss3Skill2ColTime += Time.deltaTime;
-                }else if (!boss3Skill3)
-                {
-                    boss3Skill3ColTime += Time.deltaTime;
-                }else if(!boss3Skill4)
-                {
-                    boss3Skill4ColTime += Time.deltaTime;
-                }else if (!boss3Skill5)
-                {
-                    boss3Skill5ColTime += Time.deltaTime;
-                }
-                boss3EnemySpawnColTime += Time.deltaTime;
-                if (boss3EnemySpawnColTime >= 25)
-                {
-                    for (int i = 0; i < 6; i++)
-                    {
-                        Vector2 randomCircle = Random.insideUnitCircle * 7;
-                        Vector3 dropPosition = new Vector3(
-                            transform.position.x + randomCircle.x,
-                            transform.position.y,
-                            transform.position.z + randomCircle.y
-                        );
-                        int index = Random.Range(0, enemys.Length);
-                        Instantiate(enemys[index], dropPosition, Quaternion.identity);
-                    }
-                    boss3EnemySpawnColTime = 0;
-                }
-                break;
-        }
+        
         if (targetUpdateTimer >= 1)
         {
             foreach (var player in FindObjectsOfType<Player>())
@@ -227,6 +127,122 @@ public class Enemy : MonoBehaviour
         }
         if (!isDie)
         {
+            switch (stats)
+            {
+                case EnemyStats.boss1:
+                    if (!skill1)
+                    {
+                        boss1Skill1ColTime += Time.deltaTime;
+                    }
+                    else
+                    {
+                        boss1Skill2ColTime += Time.deltaTime;
+                    }
+                    boss1EnemySpawnColTime += Time.deltaTime;
+                    if (boss1EnemySpawnColTime >= 10)
+                    {
+                        for (int i = 0; i < 2; i++)
+                        {
+                            Vector2 randomCircle = Random.insideUnitCircle * 7;
+                            Vector3 dropPosition = new Vector3(
+                                transform.position.x + randomCircle.x,
+                                transform.position.y,
+                                transform.position.z + randomCircle.y
+                            );
+                            int index = Random.Range(0, enemys.Length);
+                            Instantiate(enemys[index], dropPosition, Quaternion.identity);
+                        }
+                        boss1EnemySpawnColTime = 0;
+                    }
+                    break;
+                case EnemyStats.boss2:
+                    if (boss2Defence)
+                    {
+                        boss2DefenceTime += Time.deltaTime;
+                        if (boss2DefenceTime >= 10)
+                        {
+                            boss2Defence = false;
+                            animator.SetBool("Defend", boss2Defence);
+                            boss2DefenceTime = 0;
+                        }
+                        else
+                        {
+                            hp += 2f * Time.deltaTime;
+                        }
+                    }
+
+                    if (!boss2Skill1)
+                    {
+                        boss2Skill1ColTime += Time.deltaTime;
+                    }
+                    else if (!boss2Skill2)
+                    {
+                        boss2Skill2ColTime += Time.deltaTime;
+                    }
+                    else if (!boss2Skill3)
+                    {
+                        boss2Skill3ColTime += Time.deltaTime;
+                    }
+                    else if (!boss2Skill4)
+                    {
+                        boss2Skill4ColTime += Time.deltaTime;
+                    }
+                    boss2EnemySpawnColTime += Time.deltaTime;
+                    if (boss2EnemySpawnColTime >= 20)
+                    {
+                        for (int i = 0; i < 4; i++)
+                        {
+                            Vector2 randomCircle = Random.insideUnitCircle * 7;
+                            Vector3 dropPosition = new Vector3(
+                                transform.position.x + randomCircle.x,
+                                transform.position.y,
+                                transform.position.z + randomCircle.y
+                            );
+                            int index = Random.Range(0, enemys.Length);
+                            Instantiate(enemys[index], dropPosition, Quaternion.identity);
+                        }
+                        boss2EnemySpawnColTime = 0;
+                    }
+                    break;
+                case EnemyStats.boss3:
+                    if (!boss3Skill1)
+                    {
+                        boss3Skill1ColTime += Time.deltaTime;
+                    }
+                    else if (!boss3Skill2)
+                    {
+                        boss3Skill2ColTime += Time.deltaTime;
+                    }
+                    else if (!boss3Skill3)
+                    {
+                        boss3Skill3ColTime += Time.deltaTime;
+                    }
+                    else if (!boss3Skill4)
+                    {
+                        boss3Skill4ColTime += Time.deltaTime;
+                    }
+                    else if (!boss3Skill5)
+                    {
+                        boss3Skill5ColTime += Time.deltaTime;
+                    }
+                    boss3EnemySpawnColTime += Time.deltaTime;
+                    if (boss3EnemySpawnColTime >= 25)
+                    {
+                        for (int i = 0; i < 6; i++)
+                        {
+                            Vector2 randomCircle = Random.insideUnitCircle * 7;
+                            Vector3 dropPosition = new Vector3(
+                                transform.position.x + randomCircle.x,
+                                transform.position.y,
+                                transform.position.z + randomCircle.y
+                            );
+                            int index = Random.Range(0, enemys.Length);
+                            Instantiate(enemys[index], dropPosition, Quaternion.identity);
+                        }
+                        boss3EnemySpawnColTime = 0;
+                    }
+                    break;
+            }
             if (hit)
             {
                 hitCurrentTime += Time.deltaTime;
@@ -258,7 +274,12 @@ public class Enemy : MonoBehaviour
                 {
                     case EnemyStats.boss1:
                         stage.clear = true;
-                        GameManager.Instance.messageUI.Add("보스1이 사망하였습니다!!", Color.red, true);
+                        GameManager.Instance.messageUI.Add("식인식물이 사망하였습니다!!", Color.red, true);
+                        GameManager.Instance.stage++;
+                        break;
+                    case EnemyStats.boss2:
+                        stage.clear = true;
+                        GameManager.Instance.messageUI.Add("골램이 사망하였습니다!!", Color.red, true);
                         GameManager.Instance.stage++;
                         break;
                 }
@@ -287,6 +308,16 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    IEnumerator Boss3Spawn()
+    {
+        yield return new WaitForSecondsRealtime(5.5f);
+        Time.timeScale = 1;
+        Destroy(GameManager.Instance.boss3Spawn);
+        var boss = Instantiate(boss3);
+        boss.transform.position = stage.transform.position;
+        Destroy(gameObject);
+    }
+
 
 
     IEnumerator Die()
@@ -294,10 +325,27 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(3);
         if(stats == EnemyStats.far || stats == EnemyStats.naer)
         {
-            var item = Instantiate(itmes[Random.Range(0, itmes.Length)]);
-            item.transform.position = new Vector3(transform.position.x, item.transform.position.y, transform.position.z);
+
+            GameManager.Instance.DropItem(transform.position);
+            
+
         }
-        Destroy(gameObject);
+        if(stats == EnemyStats.boss2)
+        {
+            if (boss3 != null)
+            {
+                transform.GetChild(0).gameObject.SetActive(false);
+                transform.GetChild(3).gameObject.SetActive(false);
+                GameManager.Instance.boss3Spawn.SetActive(true);
+                StartCoroutine(Boss3Spawn());
+                Time.timeScale = 0;
+            }
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
     }
 
     private void FixedUpdate()
@@ -325,14 +373,16 @@ public class Enemy : MonoBehaviour
             else
             {
                 Vector3 direction = (target.position - transform.position).normalized;
-                direction.y = 0; // y축 이동 방지
                 transform.rotation = Quaternion.Slerp(
                     transform.rotation,
                     Quaternion.LookRotation(direction),
                     Time.deltaTime * 5f // 회전 속도 조절
                 );
-            
-                rb.velocity = direction * speed; // 이동 속도 설정
+
+                float yVelocity = rb.velocity.y;
+                direction *= speed;
+                direction.y = yVelocity;
+                rb.velocity = direction; // 이동 속도 설정
             }
                
         }
@@ -433,6 +483,7 @@ public class Enemy : MonoBehaviour
                                     player.GetComponent<Rigidbody>().AddForce(transform.forward * 15 + transform.up * 2, ForceMode.Impulse);
                                 }
                             }
+                            boss2Skill2 = false;
                         }else if (!boss2Skill2 && boss2Skill2ColTime >= boss2Skill2MaxColTime)
                         {
                             boss2Skill2 = true;
@@ -442,6 +493,7 @@ public class Enemy : MonoBehaviour
                             var wave = Instantiate(wavePrefab, transform.position, Quaternion.identity);
                             wave.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                             wave.GetComponent<Wave>().damage = attackDamage * 1.5f;
+                            boss2Skill3 = false;
 
                         }else if (!boss2Skill3 && boss2Skill3ColTime >= boss2Skill3MaxColTime)
                         {
@@ -450,6 +502,7 @@ public class Enemy : MonoBehaviour
                             GameManager.Instance.messageUI.Add("골램: 체력 회복", Color.red, true);
                             boss2Defence = true;
                             animator.SetBool("Defend", boss2Defence);
+                            boss2Skill4 = false;
                         }else if (!boss2Skill4 && boss2Skill4ColTime >= boss2Skill4MaxColTime)
                         {
                             boss2Skill4 = true;
@@ -467,6 +520,9 @@ public class Enemy : MonoBehaviour
                                 int index = Random.Range(0, enemys.Length);
                                 Instantiate(enemys[index], dropPosition, Quaternion.identity);
                             }
+                            boss2Skill1 = false;
+                            boss2Skill2 = true;
+                            boss2Skill3 = true;
                         }
                         else
                         {
@@ -492,25 +548,61 @@ public class Enemy : MonoBehaviour
                             boss3Skill1ColTime = 0;
                             GameManager.Instance.messageUI.Add("드래곤: 화염구!!", Color.red, true);
                             animator.SetTrigger("ProjectileAttack");
-                            var fireball = Instantiate(bulletPrefab, firePos.position, Quaternion.identity);
-                            fireball.transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+                            var fireball = Instantiate(bulletPrefab);
+                            fireball.transform.position = firePos.position;
+                            fireball.transform.LookAt(target.transform);
+                            boss3Skill2 = false;
 
                         }else if (!boss3Skill2 && boss3Skill2ColTime >= boss3Skill2MaxColTime)
                         {
-                            boss2Skill2 = true;
+                            boss3Skill2 = true;
                             boss3Skill2ColTime = 0;
+                            GameManager.Instance.messageUI.Add("드래곤: 브래스!!", Color.red, true);
+                            animator.SetBool("FireBreathAttack", true);
+                            dragonBreath.SetActive(true);
+                            StartCoroutine(DragonBreathOff(3));
+                            boss3Skill3 = false;
                         }else if (!boss3Skill3 && boss3Skill3ColTime >= boss3Skill3MaxColTime)
                         {
                             boss3Skill3 = true;
                             boss3Skill3ColTime = 0;
+                            GameManager.Instance.messageUI.Add("드래곤: 포효!!", Color.red, true);
+                            animator.SetTrigger("Roar");
+                            for (int i = 0; i < 15; i++)
+                            {
+                                Vector2 randomCircle = Random.insideUnitCircle * 7;
+                                Vector3 dropPosition = new Vector3(
+                                    transform.position.x + randomCircle.x,
+                                    transform.position.y,
+                                    transform.position.z + randomCircle.y
+                                );
+                                int index = Random.Range(0, enemys.Length);
+                                Instantiate(enemys[index], dropPosition, Quaternion.identity);
+                            }
+                            boss3Skill4 = false;
                         }else if (!boss3Skill4 && boss3Skill4ColTime >= boss3Skill4MaxColTime)
                         {
                             boss3Skill4 = true;
                             boss3Skill4ColTime = 0;
+                            GameManager.Instance.messageUI.Add("드래곤: 플라이화염구!!", Color.red, true);
+                            animator.SetTrigger("FlyProjectileAttack");
+                            var fireball = Instantiate(bulletPrefab);
+                            fireball.transform.position = firePos.position;
+                            fireball.transform.LookAt(target.transform);
+                            boss3Skill5 = false;
                         }else if (!boss3Skill5 && boss3Skill5ColTime >= boss3Skill5MaxColTime)
                         {
                             boss3Skill5 = true;
                             boss3Skill5ColTime = 0;
+                            GameManager.Instance.messageUI.Add("드래곤: 플라이브래스!!", Color.red, true);
+                            animator.SetBool("FlyFireBreathAttack", true);
+                            dragonBreath.SetActive(true);
+                            StartCoroutine(DragonBreathOff(5));
+                            boss3Skill1 = false;
+                            boss3Skill2 = true;
+                            boss3Skill3 = true;
+                            boss3Skill4 = true;
+
                         }
                         else
                         {
@@ -526,6 +618,13 @@ public class Enemy : MonoBehaviour
                 
             }
         }
+    }
+
+    IEnumerator DragonBreathOff(float time)
+    {
+        yield return new WaitForSeconds(time);
+        animator.SetBool("FireBreathAttack", false);
+        dragonBreath.SetActive(false);
     }
     
     private void DropPoison(Transform center, float radius)

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public enum items
 {
-    heal, mp
+    heal1, heal2, heal3, mp1, mp2, mp3, attack, mentalFocus, lifeRestoration
 }
 
 public class Item : MonoBehaviour
@@ -14,6 +14,7 @@ public class Item : MonoBehaviour
 
     public items item;
     private Text text;
+    public bool stack;
 
     private void Awake()
     {
@@ -24,11 +25,32 @@ public class Item : MonoBehaviour
     {
         switch (item)
         {
-            case items.heal:
-                text.text = "채력 회복아이템";
+            case items.heal1:
+                text.text = "생명력Lv.1아이템";
                 break;
-            case items.mp:
-                text.text = "마나 회복 아이템";
+            case items.heal2:
+                text.text = "생명력Lv.2아이템";
+                break;
+            case items.heal3:
+                text.text = "생명력Lv.3아이템";
+                break;
+            case items.mp1:
+                text.text = "정신력Lv.1아이템";
+                break;
+            case items.mp2:
+                text.text = "정신력Lv.2아이템";
+                break;
+            case items.mp3:
+                text.text = "정신력Lv.3아이템";
+                break;
+            case items.attack:
+                text.text = "화려한전투아이템";
+                break;
+            case items.mentalFocus:
+                text.text = "정신의집중아이템";
+                break;
+            case items.lifeRestoration:
+                text.text = "생명의회복아이템";
                 break;
         }
     }
@@ -44,11 +66,125 @@ public class Item : MonoBehaviour
                 {
                     if (player.inventoryCount >= player.maxInventoryCount)
                     {
-                        GameManager.Instance.messageUI.Add("인벤토리에 자리가 부족합니다.", Color.red, true);
+                        bool get = false;
+                        switch (player.stats)
+                        {
+                            case playerStats.near:
+                                foreach(var item in GameManager.Instance.inventory1)
+                                {
+                                    if(item.Key == this.item)
+                                    {
+                                        if (item.Value.stackble)
+                                        {
+                                            if(item.Value.count < item.Value.max)
+                                            {
+                                                get = true;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            case playerStats.far:
+                                foreach (var item in GameManager.Instance.inventory2)
+                                {
+                                    if (item.Key == this.item)
+                                    {
+                                        if (item.Value.stackble)
+                                        {
+                                            if (item.Value.count < item.Value.max)
+                                            {
+                                                get = true;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            case playerStats.magic:
+                                foreach (var item in GameManager.Instance.inventory2)
+                                {
+                                    if (item.Key == this.item)
+                                    {
+                                        if (item.Value.stackble)
+                                        {
+                                            if (item.Value.count < item.Value.max)
+                                            {
+                                                get = true;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                        }
+                        if (get)
+                        {
+                            ItemGet(player, true);
+                            Destroy(gameObject);
+                        }
+                        else
+                        {
+                            GameManager.Instance.messageUI.Add("인벤토리에 자리가 부족합니다.", Color.red, true);
+                        } 
                     }
                     else
                     {
-                        ItemGet(player);
+                        bool get = false;
+                        switch (player.stats)
+                        {
+                            case playerStats.near:
+                                foreach (var item in GameManager.Instance.inventory1)
+                                {
+                                    if (item.Key == this.item)
+                                    {
+                                        if (item.Value.stackble)
+                                        {
+                                            if (item.Value.count < item.Value.max)
+                                            {
+                                                get = true;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            case playerStats.far:
+                                foreach (var item in GameManager.Instance.inventory2)
+                                {
+                                    if (item.Key == this.item)
+                                    {
+                                        if (item.Value.stackble)
+                                        {
+                                            if (item.Value.count < item.Value.max)
+                                            {
+                                                get = true;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            case playerStats.magic:
+                                foreach (var item in GameManager.Instance.inventory2)
+                                {
+                                    if (item.Key == this.item)
+                                    {
+                                        if (item.Value.stackble)
+                                        {
+                                            if (item.Value.count < item.Value.max)
+                                            {
+                                                get = true;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                        }
+                        if (get)
+                        {
+                            ItemGet(player, true);
+                        }
+                        else
+                        {
+                            ItemGet(player, false);
+                        }
+                            
                         Destroy(gameObject);
                     }
                 }
@@ -58,19 +194,44 @@ public class Item : MonoBehaviour
         }
     }
 
-    private void ItemGet(Player player)
+    private void ItemGet(Player player, bool stack)
     {
         switch (item)
         {
-            case items.heal:
-                GameManager.Instance.messageUI.Add("체력회복 아이템 획득", Color.green, true);
+            case items.heal1:
+                GameManager.Instance.messageUI.Add("생명력Lv.1아이템 획득", Color.green, true);
                 break;
-            case items.mp:
-                GameManager.Instance.messageUI.Add("마나회복 아이템 획득", Color.green, true);
+            case items.heal2:
+                GameManager.Instance.messageUI.Add("생명력Lv.2아이템 획득", Color.green, true);
+                break;
+            case items.heal3:
+                GameManager.Instance.messageUI.Add("생명력Lv.3아이템 획득", Color.green, true);
+                break;
+            case items.mp1:
+                GameManager.Instance.messageUI.Add("정신력Lv.1아이템 획득", Color.green, true);
+                break;
+            case items.mp2:
+                GameManager.Instance.messageUI.Add("정신력Lv.2아이템 획득", Color.green, true);
+                break;
+            case items.mp3:
+                GameManager.Instance.messageUI.Add("정신력Lv.3아이템 획득", Color.green, true);
+                break;
+            case items.attack:
+                GameManager.Instance.messageUI.Add("화려한전투아이템 획득", Color.green, true);
+                break;
+            case items.mentalFocus:
+                GameManager.Instance.messageUI.Add("정신의집중아이템 획득", Color.green, true);
+                break;
+            case items.lifeRestoration:
+                GameManager.Instance.messageUI.Add("생명의회복아이템 획득", Color.green, true);
                 break;
         }
-        player.inventoryCount++;
-        InventoryGet(player, item, true);
+        if(!stack)
+        {
+            player.inventoryCount++;
+        }
+        
+        InventoryGet(player, item, this.stack);
         
     }
 

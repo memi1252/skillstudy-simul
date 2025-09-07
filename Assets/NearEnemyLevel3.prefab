@@ -289,8 +289,8 @@ MonoBehaviour:
   attackRange: 3
   attackSpeed: 2.5
   itmes:
-  - {fileID: 3770251434640732092, guid: e8122124a8d0244408395f141fc97795, type: 3}
-  - {fileID: 5009638332152933409, guid: 1475649d47d53a244b9030ebb48df7fe, type: 3}
+  - {fileID: 6468164232107968733, guid: 10370a0e15ca7fb4bbe5c508c6c61fa1, type: 3}
+  - {fileID: 6862221597508761713, guid: eb81c12800fa5f242bdd84950eeb9008, type: 3}
   isStun: 0
   currentStunTime: 0
   hitParticle: {fileID: 6829430299833031723}
@@ -301,6 +301,32 @@ MonoBehaviour:
   isDie: 0
   bulletPrefab: {fileID: 0}
   firePos: {fileID: 0}
+  boss1Skill1MaxColTime: 0
+  boss1Skill2MaxColTime: 0
+  skill1: 0
+  boss2Skill1MaxColTime: 0
+  boss2Skill2MaxColTime: 0
+  boss2Skill3MaxColTime: 0
+  boss2Skill4MaxColTime: 0
+  boss2Skill1: 0
+  boss2Skill2: 0
+  boss2Skill3: 0
+  boss2Skill4: 0
+  wavePrefab: {fileID: 0}
+  boss3: {fileID: 0}
+  boss3Skill1MaxColTime: 0
+  boss3Skill2MaxColTime: 0
+  boss3Skill3MaxColTime: 0
+  boss3Skill4MaxColTime: 0
+  boss3Skill5MaxColTime: 0
+  boss3Skill1: 0
+  boss3Skill2: 0
+  boss3Skill3: 0
+  boss3Skill4: 0
+  boss3Skill5: 0
+  dragonBreath: {fileID: 0}
+  enemys: []
+  stage: {fileID: 0}
 --- !u!136 &693763370781757828
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -341,7 +367,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4163164987267347362
 Transform:
   m_ObjectHideFlags: 0

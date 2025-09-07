@@ -98,21 +98,44 @@ MonoBehaviour:
   attackRange: 8
   attackSpeed: 2.5
   itmes:
-  - {fileID: 3770251434640732092, guid: e8122124a8d0244408395f141fc97795, type: 3}
-  - {fileID: 5009638332152933409, guid: 1475649d47d53a244b9030ebb48df7fe, type: 3}
+  - {fileID: 5424416907121956973, guid: 662fbb22f2e657444bb444e33bbbf5eb, type: 3}
+  - {fileID: 5562409193781891382, guid: 60f09ff2cbd03d54894d17b2df436e10, type: 3}
   isStun: 0
   currentStunTime: 0
-  hitParticle: {fileID: 0}
-  prozenParticle: {fileID: 0}
+  hitParticle: {fileID: 159689022347834991}
+  prozenParticle: {fileID: 1901531012006924780}
   target: {fileID: 0}
   hit: 0
   hpImage: {fileID: 9077918834537793175}
   isDie: 0
   bulletPrefab: {fileID: 8942225070738151562, guid: ba07a795f94ab754b8ae51015183ce14, type: 3}
   firePos: {fileID: 7722335339100228703}
-  boss1SkillMaxColTime: 0
-  boss2SkillMaxColTime: 0
+  boss1Skill1MaxColTime: 0
+  boss1Skill2MaxColTime: 0
   skill1: 0
+  boss2Skill1MaxColTime: 0
+  boss2Skill2MaxColTime: 0
+  boss2Skill3MaxColTime: 0
+  boss2Skill4MaxColTime: 0
+  boss2Skill1: 0
+  boss2Skill2: 0
+  boss2Skill3: 0
+  boss2Skill4: 0
+  wavePrefab: {fileID: 0}
+  boss3: {fileID: 0}
+  boss3Skill1MaxColTime: 0
+  boss3Skill2MaxColTime: 0
+  boss3Skill3MaxColTime: 0
+  boss3Skill4MaxColTime: 0
+  boss3Skill5MaxColTime: 0
+  boss3Skill1: 0
+  boss3Skill2: 0
+  boss3Skill3: 0
+  boss3Skill4: 0
+  boss3Skill5: 0
+  dragonBreath: {fileID: 0}
+  enemys: []
+  stage: {fileID: 0}
 --- !u!136 &5943606428464431780
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -345,7 +368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7094214345040000417
 Transform:
   m_ObjectHideFlags: 0
@@ -594,6 +617,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 026db86d23e6c8e46b7f32ff4ee597ef, type: 3}
+--- !u!198 &1901531012006924780 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2257515422687744528, guid: 026db86d23e6c8e46b7f32ff4ee597ef, type: 3}
+  m_PrefabInstance: {fileID: 376004602405520380}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7479623541043679341 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7132333788612645777, guid: 026db86d23e6c8e46b7f32ff4ee597ef, type: 3}
@@ -664,6 +692,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 026db86d23e6c8e46b7f32ff4ee597ef, type: 3}
+--- !u!198 &159689022347834991 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2257515422687744528, guid: 026db86d23e6c8e46b7f32ff4ee597ef, type: 3}
+  m_PrefabInstance: {fileID: 2117564842328368255}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9194162187446482926 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7132333788612645777, guid: 026db86d23e6c8e46b7f32ff4ee597ef, type: 3}

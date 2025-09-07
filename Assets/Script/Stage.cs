@@ -49,7 +49,8 @@ public class Stage : MonoBehaviour
                 bossSpanw = true;
                 //보스 소환
                 GameManager.Instance.messageUI.Add("보스1이 출현하였습니다!!", Color.red, true);
-                Instantiate(bossPrefab, transform.position, Quaternion.identity);
+                var boss = Instantiate(bossPrefab, transform.position, Quaternion.identity);
+                boss.GetComponent<Enemy>().stage = this;
             }
         }else if (stage == 2 && !bossSpanw)
         {
@@ -60,10 +61,11 @@ public class Stage : MonoBehaviour
                 bossSpanw = true;
                 //보스 소환
                 GameManager.Instance.messageUI.Add("보스2이 출현하였습니다!!", Color.red, true);
-                Instantiate(bossPrefab, transform.position, Quaternion.identity);
+                var boss = Instantiate(bossPrefab, transform.position, Quaternion.identity);
+                boss.GetComponent<Enemy>().stage = this;
             }
         }
-        if (enemys.Count > 0 && index < enemys.Count)
+        if (enemys.Count > 0 && index <= enemys.Count)
         {
             enemySpawn = false;
             if (enemys[index].activeSelf)
@@ -103,21 +105,21 @@ public class Stage : MonoBehaviour
                     if (GameManager.Instance.Stage1Level1EnemyCount < level1EnemyMax &&
                         GameManager.Instance.Stage1Level2EnemyCount < level2EnemyMax)
                     {
-                        index = Random.Range(0, enemysPrefabs.Length);
+                        int index = Random.Range(0, enemysPrefabs.Length);
                         var spawn = Instantiate(enemysPrefabs[index], transform);
                         spawn.transform.localPosition = Vector3.zero;
                         spawn.SetActive(true);
                         enemys.Add(spawn);
                     }else if (GameManager.Instance.Stage1Level1EnemyCount < level1EnemyMax)
                     {
-                        index = Random.Range(0, 2);
+                        int index = Random.Range(0, 2);
                         var spawn = Instantiate(enemysPrefabs[index], transform);
                         spawn.transform.localPosition = Vector3.zero;
                         spawn.SetActive(true);
                         enemys.Add(spawn);
                     }else if (GameManager.Instance.Stage1Level2EnemyCount < level2EnemyMax)
                     {
-                        index = Random.Range(2, enemysPrefabs.Length);
+                        int index = Random.Range(2, enemysPrefabs.Length);
                         var spawn = Instantiate(enemysPrefabs[index], transform);
                         spawn.transform.localPosition = Vector3.zero;
                         spawn.SetActive(true);
@@ -128,21 +130,21 @@ public class Stage : MonoBehaviour
                     if (GameManager.Instance.Stage2Level2EnemyCount < level2EnemyMax &&
                         GameManager.Instance.Stage2Level3EnemyCount < level3EnemyMax)
                     {
-                        index = Random.Range(0, enemysPrefabs.Length);
+                        int index = Random.Range(0, enemysPrefabs.Length);
                         var spawn = Instantiate(enemysPrefabs[index], transform);
                         spawn.transform.localPosition = Vector3.zero;
                         spawn.SetActive(true);
                         enemys.Add(spawn);
                     }else if (GameManager.Instance.Stage2Level2EnemyCount < level2EnemyMax)
                     {
-                        index = Random.Range(0, 2);
+                        int index = Random.Range(0, 2);
                         var spawn = Instantiate(enemysPrefabs[index], transform);
                         spawn.transform.localPosition = Vector3.zero;
                         spawn.SetActive(true);
                         enemys.Add(spawn);
                     }else if (GameManager.Instance.Stage2Level3EnemyCount < level3EnemyMax)
                     {
-                        index = Random.Range(2, enemysPrefabs.Length);
+                        int index = Random.Range(2, enemysPrefabs.Length);
                         var spawn = Instantiate(enemysPrefabs[index], transform);
                         spawn.transform.localPosition = Vector3.zero;
                         spawn.SetActive(true);

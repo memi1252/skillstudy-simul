@@ -312,6 +312,7 @@ MonoBehaviour:
   boss2Skill3: 0
   boss2Skill4: 0
   wavePrefab: {fileID: 6117706824643219021, guid: e63b3815db99fc64ba7e8b1266848253, type: 3}
+  boss3: {fileID: 3582496780195944864, guid: d1fbdc30a1072084d8893a0c5b3d93bc, type: 3}
   boss3Skill1MaxColTime: 0
   boss3Skill2MaxColTime: 0
   boss3Skill3MaxColTime: 0
@@ -322,6 +323,7 @@ MonoBehaviour:
   boss3Skill3: 0
   boss3Skill4: 0
   boss3Skill5: 0
+  dragonBreath: {fileID: 0}
   enemys:
   - {fileID: 2758538370037365394, guid: 67607d0cbe5078946aefc07001243b92, type: 3}
   - {fileID: 2740907796523925463, guid: faeec5289f38725499c822f63720f925, type: 3}

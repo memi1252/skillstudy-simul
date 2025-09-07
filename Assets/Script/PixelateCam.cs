@@ -5,15 +5,26 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class PixelateCam : MonoBehaviour
 {
-    [Range(1, 1000)] public int pixelate;
+    [Range(1, 10)] public float pixelate;
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         source.filterMode = FilterMode.Point;
-        RenderTexture resultTexture = RenderTexture.GetTemporary(source.width /  pixelate , source.height / pixelate, 0 , source.format);
+
+        // Use Mathf.RoundToInt() to convert the float result to an integer
+        int width = Mathf.RoundToInt(source.width / pixelate);
+        int height = Mathf.RoundToInt(source.height / pixelate);
+
+        // Make sure the width and height are at least 1 pixel
+        if (width < 1) width = 1;
+        if (height < 1) height = 1;
+
+        RenderTexture resultTexture = RenderTexture.GetTemporary(width, height, 0, source.format);
         resultTexture.filterMode = FilterMode.Point;
+
         Graphics.Blit(source, resultTexture);
         Graphics.Blit(resultTexture, destination);
+
         RenderTexture.ReleaseTemporary(resultTexture);
     }
 }

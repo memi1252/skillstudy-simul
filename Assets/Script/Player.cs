@@ -62,6 +62,8 @@ public class Player : MonoBehaviour
     public bool move = true;
     public bool isDie = false;
     public bool poison = false;
+    public bool spectacularBattle = false;
+    public bool mentalFocus = false;
 
     private SkillManager SM;
     private GameManager GM;
@@ -207,30 +209,33 @@ public class Player : MonoBehaviour
                     hp += maxHp/4;
                     attackDamage += 10;
                     GameManager.Instance.messageUI.Add("전사: 체력 +20, 공격력 +10", Color.green, true);
-                    if (level == 1)
+                    if (level % 2  == 1)
+                    {
                         SkillManager.instance.nearSkillUpgrade++;
-                    if(level / 2  == 0)
-                        SkillManager.instance.nearSkillUpgrade++;
+                        GameManager.Instance.messageUI.Add("전사: ctrl + 스킬키를 눌러 스킬 레벨업", Color.green, true);
+                    }
                     break;
                 case playerStats.far:
                     maxHp += 15;
                     hp += maxHp / 4;
                     attackDamage += 8;
                     GameManager.Instance.messageUI.Add("아처: 체력 +15, 공격력 +8", Color.green, true);
-                    if (level == 1)
+                    if (level % 2 == 1)
+                    {
                         SkillManager.instance.farSkillUpgrade++;
-                    if (level / 2 == 0)
-                        SkillManager.instance.farSkillUpgrade++;
+                        GameManager.Instance.messageUI.Add("아처: ctrl + 스킬키를 눌러 스킬 레벨업", Color.green, true);
+                    }
                     break;
                 case playerStats.magic:
                     maxHp += 10;
                     hp += maxHp / 4;
                     attackDamage += 10;
                     GameManager.Instance.messageUI.Add("마법사: 체력 +10, 공격력 +10", Color.green, true);
-                    if (level == 1)
+                    if (level % 2 == 1)
+                    {
                         SkillManager.instance.magicSkillUpgrade++;
-                    if (level / 2 == 0)
-                        SkillManager.instance.magicSkillUpgrade++;
+                        GameManager.Instance.messageUI.Add("마법사: ctrl + 스킬키를 눌러 스킬 레벨업", Color.green, true);
+                    }
                     break;
             }
         }
@@ -1535,7 +1540,6 @@ public class Player : MonoBehaviour
                 anim.SetBool("Move", true);
             }
             Vector3 dirLook = transform.forward * dir.z + transform.right * dir.x;
-            dirLook = new Vector3(dirLook.x, -0.1f, dirLook.z);
             dirLook.Normalize();
             
 
@@ -1548,7 +1552,10 @@ public class Player : MonoBehaviour
             {
                 if (currentSpeed < currentSpeedMax)
                 {
-                    rb.velocity = dirLook * (speed+2) * 100f * Time.fixedDeltaTime;
+                    float yVelocity = rb.velocity.y;
+                    dirLook *= (speed + 2) * 100f * Time.fixedDeltaTime;
+                    dirLook.y = yVelocity;
+                    rb.velocity = dirLook;
                 }
                 anim.SetBool("Run", true);
             }
@@ -1556,7 +1563,10 @@ public class Player : MonoBehaviour
             {
                 if (currentSpeed < currentSpeedMax)
                 {
-                    rb.velocity = dirLook * speed * 100f * Time.fixedDeltaTime;
+                    float yVelocity = rb.velocity.y;
+                    dirLook *= (speed) * 100f * Time.fixedDeltaTime;
+                    dirLook.y = yVelocity;
+                    rb.velocity = dirLook;
                 }
                 anim.SetBool("Run", false);
             }
@@ -1587,7 +1597,10 @@ public class Player : MonoBehaviour
                                         transform.LookAt(player.pos1);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                                         Vector3 dir = transform.forward + transform.right;
-                                        rb.velocity =dir * speed * 50 * Time.fixedDeltaTime;
+                                        dir *= speed * 50 * Time.fixedDeltaTime;
+                                        float yVelocity = rb.velocity.y;
+                                        dir.y = yVelocity;
+                                        rb.velocity = dir;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1607,7 +1620,10 @@ public class Player : MonoBehaviour
                                         transform.LookAt(player.pos2, Vector3.up);
                                         //transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                                         Vector3 dir = transform.forward + transform.right;
-                                        rb.velocity = dir * speed * 50 * Time.fixedDeltaTime;
+                                        dir *= speed * 50 * Time.fixedDeltaTime;
+                                        float yVelocity = rb.velocity.y;
+                                        dir.y = yVelocity;
+                                        rb.velocity = dir;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1638,7 +1654,10 @@ public class Player : MonoBehaviour
                                         transform.LookAt(player.pos1);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                                         Vector3 dir = transform.forward + transform.right;
-                                        rb.velocity = dir * speed * 50 * Time.fixedDeltaTime;
+                                        dir *= speed * 50 * Time.fixedDeltaTime;
+                                        float yVelocity = rb.velocity.y;
+                                        dir.y = yVelocity;
+                                        rb.velocity = dir;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1688,7 +1707,10 @@ public class Player : MonoBehaviour
                                         transform.LookAt(player.pos2);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                                         Vector3 dir = transform.forward + transform.right;
-                                        rb.velocity = dir * speed * 50 * Time.fixedDeltaTime;
+                                        dir *= speed * 50 * Time.fixedDeltaTime;
+                                        float yVelocity = rb.velocity.y;
+                                        dir.y = yVelocity;
+                                        rb.velocity = dir;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1708,7 +1730,10 @@ public class Player : MonoBehaviour
                                         transform.LookAt(player.pos2);
                                         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
                                         Vector3 dir = transform.forward + transform.right;
-                                        rb.velocity = dir * speed * 50 * Time.fixedDeltaTime;
+                                        dir *= speed * 50 * Time.fixedDeltaTime;
+                                        float yVelocity = rb.velocity.y;
+                                        dir.y = yVelocity;
+                                        rb.velocity = dir;
                                         anim.SetBool("Move", true);
                                     }
                                     else
@@ -1935,7 +1960,6 @@ public class Player : MonoBehaviour
             isDie = true;
             anim.StopPlayback();
             anim.SetTrigger("Die");
-            StartCoroutine(Die());
             switch (stats)
             {
                 case playerStats.near:
@@ -1990,12 +2014,6 @@ public class Player : MonoBehaviour
 
             }
         }
-    }
-
-    IEnumerator Die()
-    {
-        yield return new WaitForSeconds(3);
-        Destroy(gameObject);
     }
 
     IEnumerator TrailReset()
