@@ -66,6 +66,10 @@ public class Bullet : MonoBehaviour
                     }
                     Destroy(gameObject);
                 }
+                else if(collision.gameObject.TryGetComponent<DestroyObject>(out var destroyObject))
+                {
+                    destroyObject.Hit();
+                }
             }
         }
         if(enemy != null)

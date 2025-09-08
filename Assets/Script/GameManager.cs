@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public bool gameOver;
+
     [SerializeField]
     private List<InventoryEntry> inventory1List = new List<InventoryEntry>();
     [SerializeField]
@@ -56,7 +58,8 @@ public class GameManager : MonoBehaviour
     public Text scoreText;
     public float currentTime;
     public Text currentTimeText;
-    
+
+    public GameOverUI gameOverUI;
     public InventoryUI inventoryUI;
     public GameObject hitUI;
 
@@ -87,6 +90,21 @@ public class GameManager : MonoBehaviour
         scoreText.text = score.ToString();
         currentTime += Time.deltaTime;
         currentTimeText.text = $"{(int)(currentTime / 60):D2}:{(int)(currentTime % 60):D2}";
+
+        bool die = true;
+        foreach( Player player in players )
+        {
+            if (player.hp >= 0)
+            {
+                die = false;
+                break;
+            }
+        }
+        if( die )
+        {
+            GameOver(GameOverReason.allDie);
+        }
+
         if (Input.GetKeyDown(KeyCode.I))
         {
             if(inventoryUI.gameObject.activeSelf)
@@ -282,5 +300,11 @@ public class GameManager : MonoBehaviour
                     
         }
         return 0;
+    }
+
+    public void GameOver(GameOverReason reason)
+    {
+        gameOverUI.gameObject.SetActive(true);
+        gameOverUI.GameOver(reason);
     }
 }

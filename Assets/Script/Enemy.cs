@@ -73,7 +73,6 @@ public class Enemy : MonoBehaviour
     public GameObject wavePrefab;
     private bool boss2Defence;
     private float boss2DefenceTime;
-    public GameObject boss3;
     [Header("boss3")] 
     public float boss3Skill1MaxColTime;
     private float boss3Skill1ColTime;
@@ -308,15 +307,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    IEnumerator Boss3Spawn()
-    {
-        yield return new WaitForSecondsRealtime(5.5f);
-        Time.timeScale = 1;
-        Destroy(GameManager.Instance.boss3Spawn);
-        var boss = Instantiate(boss3);
-        boss.transform.position = stage.transform.position;
-        Destroy(gameObject);
-    }
+    
 
 
 
@@ -325,21 +316,7 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(3);
         if(stats == EnemyStats.far || stats == EnemyStats.naer)
         {
-
             GameManager.Instance.DropItem(transform.position);
-            
-
-        }
-        if(stats == EnemyStats.boss2)
-        {
-            if (boss3 != null)
-            {
-                transform.GetChild(0).gameObject.SetActive(false);
-                transform.GetChild(3).gameObject.SetActive(false);
-                GameManager.Instance.boss3Spawn.SetActive(true);
-                StartCoroutine(Boss3Spawn());
-                Time.timeScale = 0;
-            }
         }
         else
         {

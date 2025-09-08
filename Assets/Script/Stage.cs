@@ -20,6 +20,10 @@ public class Stage : MonoBehaviour
     public Stage nextStage;
 
     private bool enemySpawn;
+
+    public Transform[] SpawnPoint;
+    public float currentTimer;
+    public float timerMax;
     
     private void Awake()
     {
@@ -30,12 +34,50 @@ public class Stage : MonoBehaviour
     {
         if (enemys != null)
         {
+            if(stage == 3)
+            {
+                if (bossPrefab != null)
+                {
+                    GameManager.Instance.boss3Spawn.SetActive(true);
+                    StartCoroutine(Boss3Spawn());
+                    Time.timeScale = 0;
+                }
+            }
             enemys[index].SetActive(true);
+            enemys[index].transform.position = SpawnPoint[Random.Range(0, SpawnPoint.Length)].position;
         }
     }
+    IEnumerator Boss3Spawn()
+    {
+        yield return new WaitForSecondsRealtime(5.5f);
+        Time.timeScale = 1;
+        Destroy(GameManager.Instance.boss3Spawn);
+        var boss = Instantiate(bossPrefab);
+        boss.transform.position = SpawnPoint[Random.Range(0, SpawnPoint.Length)].position;
+        Destroy(gameObject);
+    }
+
 
     private void Update()
     {
+        currentTimer += Time.deltaTime;
+        if (currentTimer >= timerMax && !GameManager.Instance.gameOver)
+        {
+            GameManager.Instance.messageUI.Add("타임 오버", Color.red, true);
+            GameManager.Instance.gameOver = true;
+            switch (stage)
+            {
+                case 1:
+                    GameManager.Instance.GameOver(GameOverReason.stage1TimeOut);
+                    break;
+                case 2:
+                    GameManager.Instance.GameOver(GameOverReason.stage2TimeOut);
+                    break;
+                case 3:
+                    GameManager.Instance.GameOver(GameOverReason.stage3TimeOut);
+                    break;
+            }
+        }
         if(clear && nextStage != null)
         {
             nextStage.gameObject.SetActive(true);
@@ -85,7 +127,12 @@ public class Stage : MonoBehaviour
                     enemys.RemoveAt(index);
                     if (enemys.Count != 0)
                     {
+                        if (bossSpanw)
+                        {
+                            return;
+                        }
                         enemys[index].SetActive(true);
+                        enemys[index].transform.position = SpawnPoint[Random.Range(0, SpawnPoint.Length)].position;
                     }
                     else
                     {
@@ -97,7 +144,14 @@ public class Stage : MonoBehaviour
         }
         else
         {
-            if(!enemySpawn) return;
+            if (!enemySpawn)
+            {
+                return;
+            }
+            if (bossSpanw)
+            {
+                return;
+            }
             enemySpawn = false;
             switch (stage)
             {

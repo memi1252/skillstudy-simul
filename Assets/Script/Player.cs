@@ -1927,6 +1927,10 @@ public class Player : MonoBehaviour
                             }
                         }
                     }
+                    else if(En.TryGetComponent<DestroyObject>(out var destroyObject))
+                    {
+                        destroyObject.Hit();
+                    }
                 }
                 break;
             case playerStats.far:
