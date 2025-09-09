@@ -7,14 +7,27 @@ public class RankUI : MonoBehaviour
 {
     public GameObject rankSlot;
     public Transform rankPanel;
-    private int index =1;
+    private Animator animator;
 
     private List<GameObject> DestrotyObject = new List<GameObject>();
+    bool first = false;
 
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     public void Show()
     {
         gameObject.SetActive(true);
+        if(!first)
+        {
+            first = true;
+        }
+        else
+        {
+            animator.SetBool("Show", true);
+        }
         if(DestrotyObject.Count > 0 )
         {
             for(int i = DestrotyObject.Count - 1; i >= 0; i--)
@@ -23,16 +36,26 @@ public class RankUI : MonoBehaviour
             }
             DestrotyObject.Clear();
         }
-        index = 1;
         RankManager.instance.Load();
         RankManager.instance.data = RankManager.instance.data.OrderByDescending(rank => rank.score).ToList();
-        foreach (var rank in RankManager.instance.data)
+        for(int i = 0; i< 10; i++)
         {
             var slot = Instantiate(rankSlot);
             slot.transform.SetParent(rankPanel);
-            slot.GetComponent<RankSlot>().Set(index, rank.initail, rank.score);
+            slot.GetComponent<RankSlot>().Set(i+1, RankManager.instance.data[i].initail, RankManager.instance.data[i].score);
             DestrotyObject.Add(slot);
-            index++;
         }
+
+    }
+
+    public void Hide()
+    {
+        animator.SetBool("Show", false);
+        Invoke("Hide2", 2);
+    }
+
+    public void Hide2()
+    {
+        gameObject.SetActive(false);
     }
 }

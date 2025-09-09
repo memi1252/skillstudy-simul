@@ -19,7 +19,6 @@ public class GameOverUI : MonoBehaviour
     public Text stageText;
     public Button restartButton;
     public Button mainButton;
-    public Button RankButton;
 
     private void Awake()
     {
@@ -30,10 +29,6 @@ public class GameOverUI : MonoBehaviour
         mainButton.onClick.AddListener(() =>
         {
             SceneManager.LoadScene(0);
-        });
-        RankButton.onClick.AddListener(() =>
-        {
-            //아직 랭크 UI없음 
         });
     }
 
@@ -59,5 +54,23 @@ public class GameOverUI : MonoBehaviour
         }
         playTimeText.text = $"{(int)(GameManager.Instance.currentTime/60):D2}:{(int)(GameManager.Instance?.currentTime%60):D2}";
         stageText.text = $"스테이지 {GameManager.Instance.stage}";
+        bool rankUpdate = false;
+        if(RankManager.instance.data.Count ==0)
+        {
+            RankManager.instance.Load();
+        }
+        foreach (var rank in RankManager.instance.data)
+        {
+            if(rank.score <= GameManager.Instance.score)
+            {
+                rankUpdate = true;
+                break;
+            }
+        }
+
+        if (rankUpdate)
+        {
+            RankManager.instance.rankAddUI.Show();
+        }
     }
 }

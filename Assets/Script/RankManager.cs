@@ -23,6 +23,8 @@ public class RankManager : MonoBehaviour
 {
     public static RankManager instance;
 
+    public RankAddUI rankAddUI;
+
     public List<RankData> data = new List<RankData>();
     private string saveName = "saveData.json";
 
@@ -31,7 +33,6 @@ public class RankManager : MonoBehaviour
         if(instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -85,10 +86,8 @@ public class RankManager : MonoBehaviour
         }
         data = data.OrderByDescending(rank => rank.score).ToList();
     }
-    public void RankAdd(int Score)
+    public void RankAdd(RankData data)
     {
-        RankData data = new RankData();
-        data.score = Score;
         this.data.Add(data);
         this.data = this.data.OrderByDescending(rank => rank.score).ToList();
         Save();
@@ -117,7 +116,9 @@ public class RankManager : MonoBehaviour
         }
         else if(Input.GetKeyDown(KeyCode.PageUp))
         {
-            RankAdd(index);
+            RankData data = new RankData();
+            data.score = index;
+            RankAdd(data);
             index += 100;
         }
     }

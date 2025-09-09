@@ -91,7 +91,11 @@ public class Enemy : MonoBehaviour
     public bool boss3Skill5;
     private float boss3EnemySpawnColTime;
     public GameObject dragonBreath;
-    
+    public float bossSpecialSkillColTime;
+    private float boosSPecialSkillMaxColTime;
+    public bool boss3Skill6;
+
+
     public GameObject[] enemys;
     public Stage stage;
     
@@ -223,8 +227,11 @@ public class Enemy : MonoBehaviour
                     else if (!boss3Skill5)
                     {
                         boss3Skill5ColTime += Time.deltaTime;
+                    }else if (boss3Skill6)
+                    {
+                        bossSpecialSkillColTime += Time.deltaTime;
                     }
-                    boss3EnemySpawnColTime += Time.deltaTime;
+                        boss3EnemySpawnColTime += Time.deltaTime;
                     if (boss3EnemySpawnColTime >= 25)
                     {
                         for (int i = 0; i < 6; i++)
@@ -281,6 +288,12 @@ public class Enemy : MonoBehaviour
                         GameManager.Instance.messageUI.Add("골램이 사망하였습니다!!", Color.red, true);
                         GameManager.Instance.stage++;
                         break;
+                    case EnemyStats.boss3:
+                        stage.clear = true;
+                        GameManager.Instance.messageUI.Add("드래곤이 사망하였습니다!!", Color.red, true);
+                        GameManager.Instance.stage++;
+                        GameManager.Instance.gameClearUI.Show();
+                        break;
                 }
                 GameManager.Instance.score += Random.Range(100, 301);
                 if (GameManager.Instance.stage == 1)
@@ -318,11 +331,7 @@ public class Enemy : MonoBehaviour
         {
             GameManager.Instance.DropItem(transform.position);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
-        
+        Destroy(gameObject); 
     }
 
     private void FixedUpdate()
@@ -575,10 +584,27 @@ public class Enemy : MonoBehaviour
                             animator.SetBool("FlyFireBreathAttack", true);
                             dragonBreath.SetActive(true);
                             StartCoroutine(DragonBreathOff(5));
+                            boss3Skill6 = false;
+                        }else if(!boss3Skill6 && bossSpecialSkillColTime >= boss3Skill5MaxColTime)
+                        {
+                            boss3Skill6 = true;
+                            bossSpecialSkillColTime = 0;
+                            int index= Random.Range(0, 2);
+                            if(index == 0)
+                            {
+                                GameManager.Instance.messageUI.Add("드래곤: 화면 가리기!!", Color.red, true);
+                                GameManager.Instance.BossSpecialSkill1.Use();
+                            }
+                            else
+                            {
+                                GameManager.Instance.messageUI.Add("드래곤: 혼돈의 화면!!", Color.red, true);
+                                GameManager.Instance.BossSpecialSkill2.Use();
+                            }
                             boss3Skill1 = false;
                             boss3Skill2 = true;
                             boss3Skill3 = true;
                             boss3Skill4 = true;
+                            boss3Skill5 = true;
 
                         }
                         else

@@ -13,14 +13,26 @@ public class InventoryUI : MonoBehaviour
     
   
     private List<GameObject> showSlots = new List<GameObject>();
+    private Animator animator;
+    private bool first = false;
+
     private void Start()
     {
         //Hide
+        animator = GetComponent<Animator>();
     }
 
     public void Show()
     {
         gameObject.SetActive(true);
+        if (!first)
+        {
+            first = true;
+        }
+        else
+        {
+            animator.SetBool("Show", true);
+        }
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         GameManager.Instance.cameraMove = false;
@@ -29,10 +41,16 @@ public class InventoryUI : MonoBehaviour
 
     public void Hide()
     {
-        Time.timeScale = 1;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         GameManager.Instance.cameraMove = true;
+        animator.SetBool("Show", false);
+        Invoke("Hide2", 2);
+    }
+
+    private void Hide2()
+    {
+        
         gameObject.SetActive(false);
     }
 
@@ -67,8 +85,6 @@ public class InventoryUI : MonoBehaviour
             slot.GetComponent<InventorySlot>().index = 3;
             showSlots.Add(slot);
         }
-        
-        Time.timeScale = 0;
     }
 
 

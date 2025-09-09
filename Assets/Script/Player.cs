@@ -1261,6 +1261,10 @@ public class Player : MonoBehaviour
         }
         if (!SM.useMagicSkill[3] && !SM.rockMagicSkill[3])
         {
+            if (!En.CompareTag("Enemy"))
+            {
+                return;
+            }
             if (SM.magicSkill[3].mp[SM.magicSkillLevel[3] - 1] <= mp)
             {
                 mp -= SM.magicSkill[3].mp[SM.magicSkillLevel[3] - 1];
@@ -1952,6 +1956,10 @@ public class Player : MonoBehaviour
 
     public  void TakeDamage(float damage)
     {
+        if (GameManager.Instance.got)
+        {
+            return;
+        }
         hp -= damage;
         if (isDie) return;
         anim.SetTrigger("Hit");

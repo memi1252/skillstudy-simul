@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     
 
     public bool cameraMove = true;
+    public bool got = false;
 
     public int stage = 1;
     public int Stage1Level1EnemyCount;
@@ -62,6 +63,9 @@ public class GameManager : MonoBehaviour
     public GameOverUI gameOverUI;
     public InventoryUI inventoryUI;
     public GameObject hitUI;
+    public GameClearUI gameClearUI;
+    public BossSpecialSkill1 BossSpecialSkill1;
+    public BossSpecialSkill２ BossSpecialSkill2;
 
     public GameObject boss3Spawn;
 
@@ -176,12 +180,13 @@ public class GameManager : MonoBehaviour
         foreach (var item in dropItems)
         {
             currentChance += item.perscent;
-            if (currentChance <= randomValue)
+            if (currentChance >= randomValue)
             {
                 if(item.itemPrefab != null)
                 {
                     var dropitem = Instantiate(item.itemPrefab);
                     dropitem.transform.position = pos;
+                    break;
                 }
                 
 
