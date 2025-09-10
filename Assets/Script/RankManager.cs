@@ -107,11 +107,11 @@ public class RankManager : MonoBehaviour
             {
                 File.Delete(path);
                 data.Clear();
-                Debug.Log("»èÁ¦µÊ");
+                Debug.Log("ì‚­ì œë¨");
             }
             else
             {
-                Debug.Log("Á¸ÀçÇÏÁö ¾ÊÀ½");
+                Debug.Log("ì¡´ì¬í•˜ì§€ ì•ŠìŒ");
             }
         }
         else if(Input.GetKeyDown(KeyCode.PageUp))

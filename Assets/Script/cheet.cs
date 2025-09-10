@@ -12,11 +12,11 @@ public class cheet : MonoBehaviour
             GameManager.Instance.got = !GameManager.Instance.got;
             if (GameManager.Instance.got)
             {
-                GameManager.Instance.messageUI.Add("¹«Àû¸ðµå", Color.blue, true);
+                GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", Color.blue, true);
             }
             else
             {
-                GameManager.Instance.messageUI.Add("¹«Àû¸ðµå", Color.blue, true);
+                GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", Color.blue, true);
             }
         }
         else if (Input.GetKeyDown(KeyCode.F2))
@@ -28,7 +28,7 @@ public class cheet : MonoBehaviour
                     player.attackDamage += 100;
                 }
             }
-            GameManager.Instance.messageUI.Add("¸ðµç Ä³¸¯ÅÍÀÇ °ø°Ý·Â 100 Áõ°¡", Color.blue, true);
+            GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ý·ï¿½ 100 ï¿½ï¿½ï¿½ï¿½", Color.blue, true);
         }
         else if (Input.GetKeyDown(KeyCode.F3))
         {
@@ -39,7 +39,7 @@ public class cheet : MonoBehaviour
                     player.hp = player.maxHp;
                 }
             }
-            GameManager.Instance.messageUI.Add("¸ðµç Ä³¸¯ÅÍÀÇ Ã¼·Â È¸º¹", Color.blue, true);
+            GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ È¸ï¿½ï¿½", Color.blue, true);
         }
         else if (Input.GetKeyDown(KeyCode.F4))
         {
@@ -53,43 +53,43 @@ public class cheet : MonoBehaviour
                             player.maxHp += 20;
                             player.hp += player.maxHp / 4;
                             player.attackDamage += 10;
-                            GameManager.Instance.messageUI.Add("Àü»ç: Ã¼·Â +20, °ø°Ý·Â +10", Color.green, true);
+                            GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½: Ã¼ï¿½ï¿½ +20, ï¿½ï¿½ï¿½Ý·ï¿½ +10", Color.green, true);
                             if (player.level % 2 == 1)
                             {
                                 SkillManager.instance.nearSkillUpgrade++;
-                                GameManager.Instance.messageUI.Add("Àü»ç: ctrl + ½ºÅ³Å°¸¦ ´­·¯ ½ºÅ³ ·¹º§¾÷", Color.green, true);
+                                GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½: ctrl + ï¿½ï¿½Å³Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", Color.green, true);
                             }
                             break;
                         case playerStats.far:
                             player.maxHp += 15;
                             player.hp += player.maxHp / 4;
                             player.attackDamage += 8;
-                            GameManager.Instance.messageUI.Add("¾ÆÃ³: Ã¼·Â +15, °ø°Ý·Â +8", Color.green, true);
+                            GameManager.Instance.messageUI.Add("ï¿½ï¿½Ã³: Ã¼ï¿½ï¿½ +15, ï¿½ï¿½ï¿½Ý·ï¿½ +8", Color.green, true);
                             if (player.level % 2 == 1)
                             {
                                 SkillManager.instance.farSkillUpgrade++;
-                                GameManager.Instance.messageUI.Add("¾ÆÃ³: ctrl + ½ºÅ³Å°¸¦ ´­·¯ ½ºÅ³ ·¹º§¾÷", Color.green, true);
+                                GameManager.Instance.messageUI.Add("ï¿½ï¿½Ã³: ctrl + ï¿½ï¿½Å³Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", Color.green, true);
                             }
                             break;
                         case playerStats.magic:
                             player.maxHp += 10;
                             player.hp += player.maxHp / 4;
                             player.attackDamage += 10;
-                            GameManager.Instance.messageUI.Add("¸¶¹ý»ç: Ã¼·Â +10, °ø°Ý·Â +10", Color.green, true);
+                            GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: Ã¼ï¿½ï¿½ +10, ï¿½ï¿½ï¿½Ý·ï¿½ +10", Color.green, true);
                             if (player.level % 2 == 1)
                             {
                                 SkillManager.instance.magicSkillUpgrade++;
-                                GameManager.Instance.messageUI.Add("¸¶¹ý»ç: ctrl + ½ºÅ³Å°¸¦ ´­·¯ ½ºÅ³ ·¹º§¾÷", Color.green, true);
+                                GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ctrl + ï¿½ï¿½Å³Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", Color.green, true);
                             }
                             break;
                     }
                 }
             }
-            GameManager.Instance.messageUI.Add("¸ðµç Ä³¸¯ÅÍÀÇ 1·¹º§¾÷", Color.blue, true);
+            GameManager.Instance.messageUI.Add("ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", Color.blue, true);
         }else if(Input.GetKeyDown(KeyCode.F5))
         {
             GameManager.Instance.BossSpecialSkill1.Use();
-            GameManager.Instance.messageUI.Add("È­¸é °¡¸®±â ±â¼ú ½ÃÀü", Color.blue, true)
+            GameManager.Instance.messageUI.Add("È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½", Color.blue, true);
         }
     }
 }
